@@ -82,7 +82,7 @@ header a ~ p {
 	text-align: center;
 }
 
-#login-btn {
+.login-btn {
 	width: 225px;
 	padding: 7px 5px;
 }
@@ -128,7 +128,7 @@ img {
 	font-size: 14px;
 	border-radius: 3px;
 	padding: 10px 5px;
-	width: 100px;
+	min-width: 100px;
 	font-weight: 500;
 }
 
@@ -154,8 +154,8 @@ img {
 /****** Profile Styling ******/
 
 .github-profile {
-	width: 350px;
-	height: 200px;
+	width: 375px;
+	height: 250px;
 	border-radius: 3px;
 	margin: 86px auto 0 auto;
 	background-color: #EEE;
@@ -167,9 +167,9 @@ img {
 	padding-top: 16px;
 }
 
-.github-profile p:nth-child(5) {
+/*.github-profile p:nth-child(5) {
 	margin-bottom: 16px
-}
+}*/
 
 .github-profile p {
 	margin: 0 0 0 16px;
@@ -203,6 +203,9 @@ span {
 	margin: 0;
 }
 
+pre {
+  margin-top: 15px;
+}
 
 
 /*********Todo Styles**********/

@@ -7,6 +7,9 @@ var Todo = new Schema({
 	github: {
 		id: String,
 	},
+	google :{
+		id: String,
+	},
    todo: {
       title: String,
       message: String

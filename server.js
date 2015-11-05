@@ -10,6 +10,8 @@ var session = require('express-session');
 var app = express();
 require('dotenv').load();
 require('./app/config/passport')(passport);
+require('./app/config/google-passport')(passport);
+require('./app/config/facebook-passport')(passport);
 
 app.use(bodyParser.json({}));
 

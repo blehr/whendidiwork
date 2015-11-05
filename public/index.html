@@ -4,7 +4,8 @@
 
 <head>
 	<title>Clementine.js - The elegant and lightweight full stack JavaScript boilerplate.</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" type="text/css" />
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" type="text/css" /> -->
+	<link rel="stylesheet" href="/public/css/bootstrap.min.css" type="text/css" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<link href="/public/css/main.css" rel="stylesheet" type="text/css">
@@ -13,7 +14,7 @@
 <body ng-controller="ClementineAppCtrl">
 
 	<header>
-		<p>Welcome, <span id="display-name" ng-bind="user.displayName"></span>!</p>
+		<p>Welcome, <span id="display-name" ng-bind="user.github.displayName || user.google.displayName || user.facebook.displayName"></span>!</p>
 		<a class="menu" href="/profile">Profile</a>
 		<p>|</p>
 		<a class="menu" href="/logout">Logout</a>
@@ -41,8 +42,9 @@
 			<h1 class="text-center todo-title">Todos</h1>
 
 			<div class="col-sm-6">
+
 				<form>
-					
+
 					<div class="form-group">
 						<label for="title">Title</label>
 						<input type="text" name="title" ng-model="title" class="form-control" required />
@@ -55,7 +57,7 @@
 					</div>
 
 				</form>
-				
+
 				<div class="form-buttons-container">
 					<div ng-show="hideEditedTodo === ''">
 						<button class="btn btn-primary" id="submit" ng-click="addTodo()">Add Todo</button>
@@ -65,6 +67,7 @@
 						<button class="btn btn-primary" id="edit" ng-click="putTodo()">Submit Edit</button>
 					</div>
 				</div>
+
 			</div>
 
 			<div class="col-sm-6">
@@ -77,13 +80,15 @@
 						<button class="btn btn-danger" ng-click="deleteTodo(todo._id )">Delete</button>
 					</dl>
 				</div>
+
 			</div>
 
 		</div>
 
 	</div>
 
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+	<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script> -->
+	<script src="public/js/angular.min.js"></script>
 	<script type="text/javascript" src="controllers/clickController.client.js"></script>
 	<script type="text/javascript" src="controllers/todoController.client.js"></script>
 

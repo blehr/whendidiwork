@@ -6,19 +6,20 @@
         .controller('TodoCtrl', ['$scope', '$http', '$window',
 
             function($scope, $http, $window) {
-                
+
                 var appUrl = $window.location.origin;
                 var todoUrl = appUrl + '/api/:id/todo';
 
                 $scope.title = "";
                 $scope.message = "";
-                
+
 
                 $scope.hideEditedTodo = "";
 
                 $scope.getTodos = function() {
                     $http.get(todoUrl).then(function(response) {
                         $scope.todoList = response.data;
+                        console.log($scope.todoList);
 
                     });
                 };
@@ -45,16 +46,16 @@
                     $scope.message = message;
                     $scope.hideEditedTodo = id;
                 };
-                
-                
-                
-                
+
+
+
+
                 $scope.cancelEdit = function() {
                     $scope.title = "";
                     $scope.message = "";
                     $scope.hideEditedTodo = "";
                 };
-                
+
 
 
                 $scope.putTodo = function() {

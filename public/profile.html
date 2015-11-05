@@ -4,27 +4,84 @@
 
 <head>
 	<title>Clementine.js - The elegant and lightweight full stack JavaScript boilerplate.</title>
-
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" type="text/css" /> -->
+	<link rel="stylesheet" href="/public/css/bootstrap.min.css" type="text/css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="/public/css/main.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
-	<div class="container" ng-controller="ClementineAppCtrl">
-		<div class="github-profile">
-			<img src="/public/img/gh-mark-32px.png" alt="github logo" />
-			<p><span>ID: </span><span id="profile-id" class="profile-value" ng-bind="user.id"></span></p>
-			<p><span>Username: </span><span id="profile-username" class="profile-value" ng-bind="user.username"></span></p>
-			<p><span>Display Name: </span><span id="display-name" class="profile-value" ng-bind="user.displayName"></span></p>
-			<p><span>Repositories: </span><span id="profile-repos" class="profile-value" ng-bind="user.publicRepos"></span></p>
-			<a class="menu" href="/">Home</a>
-			<p id="menu-divide">|</p>
-			<a class="menu" href="/logout">Logout</a>
-		</div>
-	</div>
 
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
-	<script type="text/javascript" src="controllers/clickController.client.js"></script>
-	<script type="text/javascript" src="controllers/todoController.client.js"></script>
+	<div class="container" ng-controller="ClementineAppCtrl">
+
+		<div class="row">
+
+			<div class="github-profile">
+				<img src="/public/img/gh-mark-32px.png" alt="github logo" />
+				<p>
+					<span>ID: </span>
+					<span id="profile-id" class="profile-value" ng-bind="user.github.id"></span>
+				</p>
+				<p>
+					<span>Username: </span>
+					<span id="profile-username" class="profile-value" ng-bind="user.github.username"></span>
+				</p>
+				<p>
+					<span>Display Name: </span>
+					<span id="display-name" class="profile-value" ng-bind="user.github.displayName"></span>
+				</p>
+				<p>
+					<span>Repositories: </span>
+					<span id="profile-repos" class="profile-value" ng-bind="user.github.publicRepos"></span>
+				</p>
+				<p>
+					<span>token: </span>
+					<span id="token" class="profile-value" ng-bind="user.github.token"></span>
+				</p>
+				<p>
+					<span>Email: </span>
+					<span id="token" class="profile-value" ng-bind="user.github.email"></span>
+				</p>
+				<a class="menu" href="/">Home</a>
+				<p id="menu-divide">|</p>
+				<a class="menu" href="/logout">Logout</a>
+			</div>
+
+			<br>
+			<div ng-hide="user.github.token" class="text-center"><a class="btn btn-danger" href="/connect/github">CONNECT GITHUB</a></div>
+			<div ng-show="user.github.token" class="text-center"><a class="btn btn-danger" href="/unlink/github">UNLINK GITHUB</a></div>
+
+		</div>
+		<div class="row">
+
+			<div class="col-sm-6">
+				<p>
+					<span>Google</span>
+				</p>
+				<pre>
+					{{ user.google | json }}
+				</pre>
+				<div ng-hide="user.google.token" class="text-center"><a class="btn btn-danger" href="/connect/google">CONNECT GOOGLE</a></div>
+				<div ng-show="user.google.token" class="text-center"><a class="btn btn-danger" href="/unlink/google">UNLINK GOOGLE</a></div>
+			</div>
+
+			<div class="col-sm-6">
+				<p>
+					<span>Facebook</span>
+				</p>
+				<pre>
+					{{ user.facebook | json }}
+				</pre>
+				<div ng-hide="user.facebook.token" class="text-center"><a class="btn btn-danger" href="/connect/facebook">CONNECT FACEBOOK</a></div>
+				<div ng-show="user.facebook.token" class="text-center"><a class="btn btn-danger" href="/unlink/facebook">UNLINK FACEBOOK</a></div>
+			</div>
+
+		</div>
+
+		<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script> -->
+		<script src="public/js/angular.min.js"></script>
+		<script type="text/javascript" src="controllers/clickController.client.js"></script>
+		<script type="text/javascript" src="controllers/todoController.client.js"></script>
 
 
 </body>
