@@ -1,71 +1,123 @@
 'use strict';
 
 var path = process.cwd();
-var ClickHandler = require(path + '/app/controllers/clickHandler.server.js');
 
-var TodoHandler = require(path + '/app/controllers/todoHandler.server.js');
+var GoogleApiHandler = require(path + '/app/controllers/appHandler.server.js');
 
-module.exports = function (app, passport) {
 
-	function isLoggedIn (req, res, next) {
-		if (req.isAuthenticated()) {
-			return next();
-		} else {
-			res.redirect('/login');
-		}
-	}
+module.exports = function(app, passport) {
 
-	var clickHandler = new ClickHandler();
+  function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+      return next();
+    } else {
+      res.redirect('/login');
+    }
+  }
 
-	var todoHandler = new TodoHandler();
 
-	app.route('/')
-		.get(isLoggedIn, function (req, res) {
-			res.sendFile(path + '/public/index.html');
-		});
+  var googleApiHandler = new GoogleApiHandler();
 
-	app.route('/login')
-		.get(function (req, res) {
-			res.sendFile(path + '/public/login.html');
-		});
+  app.route('/')
+    .get(isLoggedIn, function(req, res) {
+      res.sendFile(path + '/public/index.html');
+    });
 
-	app.route('/logout')
-		.get(function (req, res) {
-			req.logout();
-			res.redirect('/login');
-		});
+  app.route('/login')
+    .get(function(req, res) {
+      res.sendFile(path + '/public/login.html');
+    });
 
-	app.route('/profile')
-		.get(isLoggedIn, function (req, res) {
-			res.sendFile(path + '/public/profile.html');
-		});
+  app.route('/logout')
+    .get(function(req, res) {
+      req.logout();
+      res.redirect('/login');
+    });
 
-	app.route('/api/:id')
-		.get(isLoggedIn, function (req, res) {
-			res.json(req.user.github);
-		});
+  app.route('/faq')
+    .get(function(req, res) {
+      res.sendFile(path + '/public/faq.html');
+    });
 
-	app.route('/auth/github')
-		.get(passport.authenticate('github'));
+  app.route('/api/:id')
+    .get(isLoggedIn, function(req, res) {
+      res.json(req.user);
+    });
 
-	app.route('/auth/github/callback')
-		.get(passport.authenticate('github', {
-			successRedirect: '/',
-			failureRedirect: '/login'
-		}));
 
-	app.route('/api/:id/clicks')
-		.get(isLoggedIn, clickHandler.getClicks)
-		.put(isLoggedIn, clickHandler.addClick)
-		.delete(isLoggedIn, clickHandler.resetClicks);
-		
-	app.route('/api/:id/todo')
-		.get(todoHandler.getTodosArray)
-		.post(todoHandler.addTodoNew)
-		.put(todoHandler.editTodo);
 
-	app.route('/api/:id/todo/:id')
-		.delete(todoHandler.removeTodo);
-		
-		
+
+  // Google routes
+  app.route('/auth/google')
+    .get(passport.authenticate('google', {
+      scope: ['profile', 'email', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/drive']
+    }));
+
+  app.route('/auth/google/callback')
+    .get(passport.authenticate('google', {
+        failureRedirect: '/login'
+      }),
+      function(req, res) {
+        res.redirect('/');
+      });
+
+  // app.route('/connect/google')
+  //   .get(passport.authorize('google', {
+  //     scope: ['profile', 'email', 'https://www.googleapis.com/auth/calendar']
+  //   }));
+
+
+  // app.route('/connect/google/callback')
+  //   .get(passport.authorize('google', {
+  //     successRedirect: '/profile',
+  //     failureRedirect: '/profile'
+  //   }));
+
+
+  // app.route('/unlink/google')
+  //   .get(function(req, res) {
+  //     var user = req.user;
+  //     user.google.token = undefined;
+  //     user.save(function(err) {
+  //       res.redirect('/profile');
+  //     });
+  //   });
+
+
+  // get list of calendars
+  app.route('/api/:id/calendarlist')
+    .get(isLoggedIn, googleApiHandler.getCalendarList);
+
+  // create calendar
+  app.route('/api/:id/create-calendar')
+    .post(isLoggedIn, googleApiHandler.createCalendar);
+
+  // create sheet
+  app.route('/api/:id/create-sheet')
+    .post(isLoggedIn, googleApiHandler.createSheet);
+
+  // get calendar events
+  app.route('/api/:id/calendarevents/:calendarId')
+    .get(isLoggedIn, googleApiHandler.getEvents);
+
+  // create event to calendar and sheet
+  app.route('/api/:id/create-event/:calendarId/:sheetId/:nextRow')
+    .post(isLoggedIn, googleApiHandler.createEvent);
+
+  // update event on calendar and sheet
+  app.route('/api/:id/calendarevents/:calendarId/:eventId')
+    .put(isLoggedIn, googleApiHandler.updateEvent);
+
+  //retrieve sheets
+  app.route('/api/:id/drivelist')
+    .get(isLoggedIn, googleApiHandler.getFiles);
+
+  // retrieve sheet meta data
+  app.route('/api/:id/sheet/:sheetId')
+    .get(isLoggedIn, googleApiHandler.getSheetMeta);
+
+  // delete event calendar and sheet
+  app.route('/api/:id/delete-event/:calendarId/:eventId')
+    .delete(isLoggedIn, googleApiHandler.deleteEvent);
+
 };

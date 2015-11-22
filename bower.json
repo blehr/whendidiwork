@@ -1,0 +1,22 @@
+{
+  "name": "googleApiTest",
+  "version": "0.0.0",
+  "homepage": "https://github.com/blehr/clementine-fcc-angular-todo",
+  "authors": [
+    "blehr <blehr.mail@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-bootstrap-datetimepicker": "latest",
+    "angular-loading-bar": "~0.8.0",
+    "angular-bootstrap": "~0.14.3",
+    "angular-animate": "~1.4.7"
+  }
+}

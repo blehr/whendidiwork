@@ -1,91 +1,266 @@
 <!DOCTYPE html>
 
-<html ng-app="clementineApp">
+<html ng-app="app">
 
 <head>
-	<title>Clementine.js - The elegant and lightweight full stack JavaScript boilerplate.</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" type="text/css" />
+	<meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>whendidiwork</title>
+	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-
+	<link rel="stylesheet" href="public/bower_components/bootstrap/dist/css/bootstrap.css">
+	<link rel="stylesheet" href="public/bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css" />
+	<link rel='stylesheet' href='public/bower_components/angular-loading-bar/build/loading-bar.css' type='text/css' media='all' />
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,500,700' rel='stylesheet' type='text/css'>
 	<link href="/public/css/main.css" rel="stylesheet" type="text/css">
 </head>
 
-<body ng-controller="ClementineAppCtrl">
+<body ng-controller="AppCtrl as appCtrl">
 
-	<header>
-		<p>Welcome, <span id="display-name" ng-bind="user.displayName"></span>!</p>
-		<a class="menu" href="/profile">Profile</a>
-		<p>|</p>
-		<a class="menu" href="/logout">Logout</a>
+	<header class="container-fluid">
+		<div class="row">
+			<div id="statusbar"></div>
+			<h1><a href="/">whendidiwork</a></h1>
+			<p>Track hours on Google Calendar and Sheets</p>
+			<nav>
+				<ul>
+					<li>
+						<a href="/">Home</a>
+					</li>
+					<li><a href="/faq">FAQ</a></li>
+				</ul>
+			</nav>
+		</div>
 	</header>
 
-
 	<div class="container">
-		<img src="/public/img/clementine_150.png" />
-		<br />
-		<p class="clementine-text">Clementine.js</p>
-	</div>
 
-	<div class="container">
-		<p>You have clicked the button <span id="click-nbr" ng-bind="clicks"></span> times.</p>
-		<br />
-		<div class="btn-container">
-			<button type="submit" class="btn btn-add" ng-click="addClick()">CLICK ME!</button>
-			<button class="btn btn-delete" ng-click="resetClicks()">RESET</button>
+		<div class="row top-row">
+
+			<div class="col-sm-4 col-md-push-8 top-row-profile">
+				<div class="">
+					<p>Welcome,
+						<span id="display-name" ng-bind="appCtrl.user.google.displayName"></span>!</p>
+					<a class="btn btn-default" href="/logout">Logout</a>
+				</div>
+			</div>
+
+			<div class="col-sm-4 col-md-pull-4">
+				<div class="open-links">
+					<a href="https://calendar.google.com">Open Calendar</a>
+					<br>
+					<a ng-href="{{appCtrl.sheetLink}}">Open Sheet</a>
+				</div>
+			</div>
+
+			<div class="col-sm-4 col-md-pull-4 confirmation">
+				<h4>Confirmation</h4>
+				<div class="panel panel-success" ng-show="appCtrl.confirmedSummary != ''">
+					<div class="panel-heading">
+						<h3 class="panel-title" ng-bind="appCtrl.confirmedSummary"></h3>
+					</div>
+					<div class="panel-body">
+						<span class="cal-event-start" ng-bind="appCtrl.confirmedStart | date: 'EEE, MMM d, y h:mm a'"></span>
+						<br>
+						<span class="cal-event-end" ng-bind="appCtrl.confirmedEnd | date: 'EEE, MMM d, y h:mm a'"></span>
+					</div>
+				</div>
+
+			</div>
+
+
 		</div>
-	</div>
-	<hr>
-	<div class="container" ng-controller="TodoCtrl">
+		<hr>
 
 		<div class="row">
-			<h1 class="text-center todo-title">Todos</h1>
 
-			<div class="col-sm-6">
-				<form>
-					
+			<div class="col-sm-4">
+
+				<form name="myForm">
+
+					<!-- <calendar-select></calendar-select> -->
 					<div class="form-group">
-						<label for="title">Title</label>
-						<input type="text" name="title" ng-model="title" class="form-control" required />
+						<label for="calendar-select">Choose Calendar</label>
+						<select class="form-control" name="calendar-select" id="calendar-select" ng-change="appCtrl.getCalendarEvents()" ng-model="appCtrl.myForm.calendar" ng-required>
+							<option value="" selected>Choose Calendar</option>
+							<option ng-repeat="cal in appCtrl.listCalendars" ng-attr-value="{{ cal.id }}" ng-bind="cal.summary">
+							</option>
+						</select>
+						<div class="" ng-controller="CreateCalendarCtrl as calCtrl">
+							<a class="primary" ng-click="calCtrl.isCollapsed = !calCtrl.isCollapsed">Create a new Calendar</a>
+							<hr>
+							<div uib-collapse="calCtrl.isCollapsed">
+								<div class="form-group">
+									<label for="create-calendar">Create Calendar:
+										<span class="text-info">whendidiwork@{{ calCtrl.newCalendar}}</span>
+									</label>
+									<input type="text" name="create-calendar" class="form-control" value="" ng-model="calCtrl.newCalendar">
+								</div>
+								<button type="button" name="createNewCalendar" class="btn btn-primary" ng-click="calCtrl.createCalendar()">Create Calendar</button>
+							</div>
+						</div>
 					</div>
 
 
+					<!-- <sheet-select></sheet-select> -->
 					<div class="form-group">
-						<label for="message">Message</label>
-						<input type="text" name="message" ng-model="message" class="form-control" required />
+						<label for="sheet-select">Choose Spreadsheet</label>
+						<select class="form-control" name="sheet-select" id="sheet-select" ng-change="appCtrl.updateSheetProps()" ng-model="appCtrl.myForm.sheet" ng-required>
+							<option value="" selected>Choose Spreadsheet</option>
+							<option ng-repeat="sheet in appCtrl.sheets" ng-attr-value="{{ sheet.title }}" ng-attr-data-id="{{ sheet.id  }}" ng-attr-data-link="{{ 'https://docs.google.com/spreadsheets/d/' + sheet.id }}" ng-bind="sheet.title">
+							</option>
+						</select>
+						<div class="" ng-controller="CreateSheetCtrl as sheetCtrl">
+							<a class="primary" ng-click="sheetCtrl.isCollapsed = !sheetCtrl.isCollapsed">Create a new Sheet</a>
+							<hr>
+							<div uib-collapse="sheetCtrl.isCollapsed">
+								<div class="form-group">
+									<label for="create-sheet">Create Sheet:
+										<span class="text-info">whendidiwork@{{ sheetCtrl.newSheet }}</span>
+									</label>
+									<input type="text" name="create-sheet" class="form-control" value="" ng-model="sheetCtrl.newSheet">
+								</div>
+								<button type="button" name="createNewsheet" class="btn btn-primary" ng-click="sheetCtrl.createSheet()">Create Sheet</button>
+
+							</div>
+						</div>
 					</div>
 
+					<div class="form-group">
+						<div class="dropdown">
+							<label for="clockIn">Clock In:
+								<span class="text-info" ng-bind="appCtrl.myForm.clockIn | date: 'EEE, MMM d, y h:mm a'"></span>
+							</label>
+							<a class="dropdown-toggle" id="clockIn" role="button" data-toggle="dropdown" data-target="#" href="">
+								<div class="input-group">
+									<input type="text" name="clockIn" class="form-control" data-ng-model="appCtrl.myForm.clockIn">
+									<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+								</div>
+							</a>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+								<datetimepicker data-ng-model="appCtrl.myForm.clockIn" data-datetimepicker-config="{ dropdownSelector: '#clockIn' }" />
+							</ul>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="dropdown">
+							<label for="clockOut">Clock Out:
+								<span class="text-info" ng-bind="appCtrl.myForm.clockOut | date: 'EEE, MMM d, y h:mm a'"></span>
+							</label>
+							<a class="dropdown-toggle" id="clockOut" role="button" data-toggle="dropdown" data-target="#" href="">
+								<div class="input-group">
+									<input type="text" name="clockOut" class="form-control" data-ng-model="appCtrl.myForm.clockOut">
+									<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+								</div>
+							</a>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+								<datetimepicker data-ng-model="appCtrl.myForm.clockOut" data-datetimepicker-config="{ dropdownSelector: '#clockOut' }" />
+							</ul>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="summary">Calendar event name/Sheet note:</label>
+						<textarea type="textarea" class="from-control" name="summary" ng-model="appCtrl.myForm.summary"></textarea>
+					</div>
+
+					<input type="button" id="submit" ng-hide="appCtrl.isEditing" ng-click="appCtrl.submitForm()" class="btn btn-primary btn-lg" name="submit" value="Submit" scroll-on-click/>
+					<input type="button" id="update" ng-show="appCtrl.isEditing" ng-click="appCtrl.updateEvent()" class="btn btn-primary btn-lg" name="update" value="Update" />
+					<input type="button" id="canel-edit" ng-show="appCtrl.isEditing" ng-click="appCtrl.cancelEdit()" class="btn btn-primary btn-lg" name="canel-edit" value="Cancel Edit" />
 				</form>
-				
-				<div class="form-buttons-container">
-					<div ng-show="hideEditedTodo === ''">
-						<button class="btn btn-primary" id="submit" ng-click="addTodo()">Add Todo</button>
-					</div>
-					<div ng-show="hideEditedTodo != ''">
-						<button class="btn btn-primary" id="cancel" ng-click="cancelEdit()">Cancel Editing</button>
-						<button class="btn btn-primary" id="edit" ng-click="putTodo()">Submit Edit</button>
-					</div>
-				</div>
+				<pre>
+					{{ appCtrl.myForm | json}}
+				</pre>
+
+
 			</div>
 
-			<div class="col-sm-6">
+			<div class="col-sm-8">
+				<button type="button" class="btn btn-default" ng-click="appCtrl.revealSheet(); ">View Sheet</button>
+				<hr>
+				<div uib-collapse="appCtrl.isCollapsed">
+					<div>
+						<table class="table table-striped">
+							<tr>
+								<th>
+									Date In
+								</th>
+								<th>
+									Time In
+								</th>
+								<th>
+									Date Out
+								</th>
+								<th>
+									Time Out
+								</th>
+								<th>
+									Summary
+								</th>
+							</tr>
+							<tr ng-repeat="row in appCtrl.rowsArray">
+								<td ng-bind="row[1]"></td>
+								<td ng-bind="row[2]"></td>
+								<td ng-bind="row[3]"></td>
+								<td ng-bind="row[4]"></td>
+								<td ng-bind="row[5]"></td>
+							</tr>
+						</table>
+					</div>
+				</div>
 
-				<div ng-repeat="todo in todoList">
-					<dl ng-hide="hideEditedTodo === todo._id">
-						<dt ng-bind="todo.todo.title"></dt>
-						<dd ng-bind="todo.todo.message"></dd>
-						<button class="btn btn-primary" ng-click="editTodo(todo._id, todo.todo.title, todo.todo.message)">Edit</button>
-						<button class="btn btn-danger" ng-click="deleteTodo(todo._id )">Delete</button>
-					</dl>
+				<div class="calendar-events-col">
+					<div class="calendar-event-title">
+						<h4>Calendar Events</h4>
+					</div>
+
+
+					<div class="panel panel-default" ng-attr-data-id="{{item.id}}" ng-hide="appCtrl.myForm.eventId === item.id" ng-repeat="item in appCtrl.events">
+						<div class="panel-heading">
+							<h3 class="panel-title" ng-attr-data-id="{{item.id}}" ng-bind="item.summary" scroll-on-click></h3>
+						</div>
+						<div class="panel-body">
+							<span class="cal-event-start" ng-bind="item.start.dateTime | date: 'EEE, MMM d, y h:mm a'"></span>
+							<span class="cal-event-start" ng-bind="item.start.date | date: 'mediumDate'"></span>
+							<br>
+							<span class="cal-event-end" ng-bind="item.end.dateTime | date: 'EEE, MMM d, y h:mm a'"></span>
+						</div>
+						<div class="panel-footer">
+							<button type="button" name="edit-event" class="btn btn-default" ng-click="appCtrl.eventEditing(item.id, item.start.dateTime, item.end.dateTime, item.summary)" scroll-on-click>
+								<span class="glyphicon glyphicon-pencil"></span> edit</button>
+							<button type="button" name="delete-event" class="btn btn-default" ng-click="appCtrl.removeEvent(item.id)">
+								<span class="glyphicon glyphicon-trash"></span> delete</button>
+						</div>
+					</div>
+
 				</div>
 			</div>
 
 		</div>
-
 	</div>
 
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
-	<script type="text/javascript" src="controllers/clickController.client.js"></script>
-	<script type="text/javascript" src="controllers/todoController.client.js"></script>
+	<footer class="clearfix">
+		<div class="footer-div">
+			<p class="footer-p">&#169; 2015 Brandon Lehr</p>
+			<a href="http://www.hopoffacloud.com/" target="_blank" class="footer-img">
+				<img src="public/img/hop-off-a-cloud-logo.png" alt="hopoffacloud logo" />
+			</a>
+		</div>
+	</footer>
+	<div id="bottom-bar"></div>
+
+
+	<script type="text/javascript" src="public/bower_components/moment/moment.js"></script>
+	<script type="text/javascript" src="public/bower_components/jquery/dist/jquery.js"></script>
+	<script type="text/javascript" src="public/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+	<script type="text/javascript" src="public/bower_components/angular/angular.js"></script>
+	<script type="text/javascript" src="public/bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"></script>
+	<script type='text/javascript' src='public/bower_components/angular-loading-bar/build/loading-bar.min.js'></script>
+	<script type="text/javascript" src='public/bower_components/angular-animate/angular-animate.min.js'></script>
+	<script type="text/javascript" src='public/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'></script>
+	<script type="text/javascript" src="controllers/appController.client.js"></script>
+
 
 
 </body>
