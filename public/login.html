@@ -3,43 +3,57 @@
 <html>
 
 <head>
-	<title>Clementine.js - The elegant and lightweight full stack JavaScript boilerplate.</title>
-
+	<meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>whendidiwork</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,500,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="public/bower_components/bootstrap/dist/css/bootstrap.css">
 	<link href="/public/css/main.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
-	<div class="container">
-		<div class="login">
-			<img src="/public/img/clementine_150.png" />
-			<br />
-			<p class="clementine-text">Clementine.js</p>
-			<a href="/auth/github">
-				<div class="login-btn btn">
-					<img src="/public/img/github_32px.png" alt="github logo" />
-					<p>LOGIN WITH GITHUB</p>
+
+	<header class="container-fluid">
+		<div class="row">
+			<div id="statusbar"></div>
+			<h1>whendidiwork</h1>
+			<p>Track hours on Google Calendar and Sheets</p>
+			<nav>
+				<ul>
+					<li><a href="/faq">FAQ</a></li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+
+
+	<div class="container main-content">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="row welcome-message">
+					<h1>whendidiwork</h1>
+					<p>Whendidiwork is a web app for tracking work, project, or hours of any kind, on your Google Calendar and a Google Spreadsheet. Create a spreadsheet for each job you desire to track. Then choose to enter events on your primary calendar, or create a
+						new whendidiwork calendar.
+					</p>
+					<p>Keep track of everything in one convient place!</p>
+					<a href="/auth/google" class="btn btn-primary btn-lg login-google"> LOGIN WITH GOOGLE</a>
 				</div>
-			</a>
-			<br>
-			<br>
-
-			<a href="/auth/google">
-				<div class="login-btn btn">
-					<img src="/public/img/github_32px.png" alt="github logo" />
-					<p>LOGIN WITH GOOGLE</p>
-				</div>
-			</a>
-
-			<a href="/auth/facebook">
-				<div class="login-btn btn">
-					<img src="/public/img/github_32px.png" alt="github logo" />
-					<p>LOGIN WITH FACEBOOK</p>
-				</div>
-			</a>
-
-
+			</div>
 		</div>
 	</div>
+
+	<footer class="clearfix">
+		<div class="footer-div">
+			<p class="footer-p">&#169; 2015 Brandon Lehr</p>
+			<a href="http://www.hopoffacloud.com/" target="_blank" class="footer-img">
+				<img src="public/img/hop-off-a-cloud-logo.png" alt="hopoffacloud logo" />
+			</a>
+		</div>
+	</footer>
+	<div id="bottom-bar"></div>
+
 </body>
 
 </html>

@@ -9,16 +9,15 @@ var configAuth = require('./auth');
 
 
 module.exports = function(passport) {
-  // These functions are in the github passport.js
-  // passport.serializeUser(function(user, done) {
-  //   done(null, user.id);
-  // });
-  //
-  // passport.deserializeUser(function(id, done) {
-  //   User.findById(id, function(err, user) {
-  //     done(err, user);
-  //   });
-  // });
+  passport.serializeUser(function(user, done) {
+    done(null, user.id);
+  });
+
+  passport.deserializeUser(function(id, done) {
+    User.findById(id, function(err, user) {
+      done(err, user);
+    });
+  });
 
   passport.use(new GoogleStrategy({
       clientID: configAuth.googleAuth.clientID,
@@ -56,7 +55,13 @@ module.exports = function(passport) {
                 });
               }
 
-              return done(null, user);
+              //save new token
+              user.google.token = accessToken;
+              user.save(function(err) {
+                  if (err) throw err;
+                  return done(null, user);
+                })
+                // return done(null, user);
 
             } else {
               var newUser = new User();
