@@ -115,8 +115,8 @@ function GoogleApiHandler() {
 
     // send to calendar and create Event doc
     var options = {
-      method: "POST",
-      url: "https://www.googleapis.com/calendar/v3/calendars/" + CalId + "/events",
+      method: 'POST',
+      url: 'https://www.googleapis.com/calendar/v3/calendars/' + CalId + '/events',
       json: req.body.event,
       auth: {
         bearer: token
@@ -166,9 +166,9 @@ function GoogleApiHandler() {
 
     Event.findOne({
       $and: [{
-        "google.id": req.user.google.id
+        'google.id': req.user.google.id
       }, {
-        "calendar.eventId": eventId
+        'calendar.eventId': eventId
       }]
     }).exec(function(err, result) {
       if (err) throw err;
@@ -211,8 +211,8 @@ function GoogleApiHandler() {
     });
 
     var options = {
-      method: "PUT",
-      url: "https://www.googleapis.com/calendar/v3/calendars/" + CalId + "/events/" + eventId,
+      method: 'PUT',
+      url: 'https://www.googleapis.com/calendar/v3/calendars/' + CalId + '/events/' + eventId,
       json: req.body.event,
       auth: {
         bearer: token
@@ -235,9 +235,9 @@ function GoogleApiHandler() {
     // find db doc
     Event.findOne({
       $and: [{
-        "google.id": req.user.google.id
+        'google.id': req.user.google.id
       }, {
-        "calendar.eventId": eventId
+        'calendar.eventId': eventId
       }]
     }).exec(function(err, result) {
       if (err) throw err;
@@ -247,11 +247,11 @@ function GoogleApiHandler() {
       // send to sheet
       var add = {};
       add[row] = {
-        1: "Deleted Event",
-        2: "leave this row",
-        3: "to maintain",
-        4: "order",
-        5: ""
+        1: 'Deleted Event',
+        2: 'leave this row',
+        3: 'to maintain',
+        4: 'order',
+        5: ''
       };
 
       Spreadsheet.load({
@@ -278,8 +278,8 @@ function GoogleApiHandler() {
 
     // delete from calendar
     var options = {
-      method: "DELETE",
-      url: "https://www.googleapis.com/calendar/v3/calendars/" + CalId + "/events/" + eventId,
+      method: 'DELETE',
+      url: 'https://www.googleapis.com/calendar/v3/calendars/' + CalId + '/events/' + eventId,
       json: req.body.event,
       auth: {
         bearer: token
@@ -298,8 +298,8 @@ function GoogleApiHandler() {
     var token = req.user.google.token;
 
     var options = {
-      method: "GET",
-      url: "https://www.googleapis.com/drive/v2/files?q=title%20contains%20%27whendidiwork%27%20and%20mimeType%20%3D%20%27application%2Fvnd.google-apps.spreadsheet%27%20and%20trashed%3Dfalse",
+      method: 'GET',
+      url: 'https://www.googleapis.com/drive/v2/files?q=title%20contains%20%27whendidiwork%27%20and%20mimeType%20%3D%20%27application%2Fvnd.google-apps.spreadsheet%27%20and%20trashed%3Dfalse',
       auth: {
         bearer: token
       }
@@ -342,8 +342,8 @@ function GoogleApiHandler() {
     console.log(req.body.newCalendar);
 
     var options = {
-      method: "POST",
-      url: "https://www.googleapis.com/calendar/v3/calendars",
+      method: 'POST',
+      url: 'https://www.googleapis.com/calendar/v3/calendars',
       json: req.body.newCalendar,
       auth: {
         bearer: token
@@ -362,8 +362,8 @@ function GoogleApiHandler() {
     console.log(req.body.newSheet);
 
     var options = {
-      method: "POST",
-      url: "https://www.googleapis.com/drive/v2/files",
+      method: 'POST',
+      url: 'https://www.googleapis.com/drive/v2/files',
       json: req.body.newSheet,
       auth: {
         bearer: token

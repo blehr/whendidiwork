@@ -61,28 +61,6 @@ module.exports = function(app, passport) {
         res.redirect('/');
       });
 
-  // app.route('/connect/google')
-  //   .get(passport.authorize('google', {
-  //     scope: ['profile', 'email', 'https://www.googleapis.com/auth/calendar']
-  //   }));
-
-
-  // app.route('/connect/google/callback')
-  //   .get(passport.authorize('google', {
-  //     successRedirect: '/profile',
-  //     failureRedirect: '/profile'
-  //   }));
-
-
-  // app.route('/unlink/google')
-  //   .get(function(req, res) {
-  //     var user = req.user;
-  //     user.google.token = undefined;
-  //     user.save(function(err) {
-  //       res.redirect('/profile');
-  //     });
-  //   });
-
 
   // get list of calendars
   app.route('/api/:id/calendarlist')

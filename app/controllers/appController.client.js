@@ -34,7 +34,7 @@
       })
       return deferred3.promise;
     }
-    
+
   }])
 
   .directive('scrollOnClick', function() {
@@ -76,7 +76,7 @@
     cal.createCalendar = function() {
       cal.isCollapsed = true;
       var newCalendar = {};
-      newCalendar.summary = "whendidiwork@" + cal.newCalendar;
+      newCalendar.summary = 'whendidiwork@' + cal.newCalendar;
       newCalendar.timeZone = cal.timeZone;
 
       $http.post('/api/:id/create-calendar', {
@@ -187,7 +187,7 @@
         }
       }
 
-      $http.put('/api/:id/calendarevents/' + self.myForm.calendar + "/" + self.myForm.eventId, {
+      $http.put('/api/:id/calendarevents/' + self.myForm.calendar + '/' + self.myForm.eventId, {
         event
       }).then(function(data) {
         self.eventConfirmation(data);
@@ -237,22 +237,22 @@
       }
 
       if (event.end.dateTime < event.start.dateTime) {
-        alert("Event end time must come after start time!");
+        alert('Event end time must come after start time!');
         return;
       }
 
-      if (self.sheetId === "") {
-        $window.alert("Please select a Sheet");
+      if (self.sheetId === '') {
+        $window.alert('Please select a Sheet');
         return;
       }
 
       if (self.myForm.calendar === '') {
-        $window.alert("Please select a calendar");
+        $window.alert('Please select a calendar');
         return;
       }
 
-      if (self.sheetId != "" && self.myForm.calendar != "") {
-        $http.post('api/:id/create-event/' + self.myForm.calendar + "/" + self.sheetId + "/" + self.nextRow, {
+      if (self.sheetId != '' && self.myForm.calendar != '') {
+        $http.post('api/:id/create-event/' + self.myForm.calendar + '/' + self.sheetId + '/' + self.nextRow, {
           event
         }).then(function(data) {
           self.eventConfirmation(data);
@@ -263,10 +263,10 @@
     }
 
     self.updateSheetProps = function() {
-      if (self.myForm.sheet === "") {
-        self.sheetLink = "";
-        self.myForm.summary = "";
-        self.sheetId = "";
+      if (self.myForm.sheet === '') {
+        self.sheetLink = '';
+        self.myForm.summary = '';
+        self.sheetId = '';
       } else {
         angular.forEach(self.sheets, function(sheet) {
           if (sheet.title === self.myForm.sheet) {
@@ -281,7 +281,7 @@
     }
 
     self.getSheetMeta = function() {
-      if (self.sheetId != "") {
+      if (self.sheetId != '') {
         $http.get('api/:id/sheet/' + self.sheetId).then(function(data) {
           self.nextRow = data.data[0].nextRow;
           var sheetRows = data.data[1];
