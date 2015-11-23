@@ -187,20 +187,41 @@
         }
       }
 
-      $http.put('/api/:id/calendarevents/' + self.myForm.calendar + '/' + self.myForm.eventId, {
-        event
-      }).then(function(data) {
-        self.eventConfirmation(data);
-        self.cancelEdit();
-        self.getCalendarEvents();
-      })
+      if (event.end.dateTime < event.start.dateTime) {
+        alert('Event end time must come after start time!');
+        return;
+      }
 
+      if (self.sheetId === '') {
+        $window.alert('Please select a Sheet');
+        return;
+      }
+
+      if (self.myForm.calendar === '') {
+        $window.alert('Please select a calendar');
+        return;
+      }
+
+      if (self.sheetId != '' && self.myForm.calendar != '') {
+        $http.put('/api/:id/calendarevents/' + self.myForm.calendar + '/' + self.myForm.eventId, {
+          event
+        }).then(function(data) {
+          self.eventConfirmation(data);
+          self.cancelEdit();
+          self.getCalendarEvents();
+        })
+      }
     }
 
 
     self.removeEvent = function(eventId) {
       self.isCollapsed = true;
       $http.delete('/api/:id/delete-event/' + self.myForm.calendar + '/' + eventId).then(function(data) {
+        if (data = 'no') {
+          self.confirmedSummary = 'This event can\'t be deleted';
+        } else {
+          self.confirmedSummary = 'Event successfully deleted';
+        }
         self.cancelEdit();
         self.getCalendarEvents();
       })
@@ -309,9 +330,13 @@
     }
 
     self.eventConfirmation = function(data) {
-      self.confirmedSummary = data.data.summary;
-      self.confirmedStart = data.data.start.dateTime;
-      self.confirmedEnd = data.data.end.dateTime;
+      if (!data.data.summary) {
+        self.confirmedSummary = 'This event can\'t be updated';
+      } else {
+        self.confirmedSummary = data.data.summary;
+        self.confirmedStart = data.data.start.dateTime;
+        self.confirmedEnd = data.data.end.dateTime;
+      }
     }
 
     //initial calls

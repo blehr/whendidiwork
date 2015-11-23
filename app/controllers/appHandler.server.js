@@ -172,58 +172,59 @@ function GoogleApiHandler() {
       }]
     }).exec(function(err, result) {
       if (err) throw err;
-      console.log(result);
-      var row = result.sheet.row;
-      var sheetId = result.sheet.id;
+      if (result === null) {
+        res.end('NO')
+      } else {
+        var row = result.sheet.row;
+        var sheetId = result.sheet.id;
 
-      // send to sheet
-      var add = {};
-      add[row] = {
-        1: startDate,
-        2: startTime,
-        3: endDate,
-        4: endTime,
-        5: summary
-      };
+        // send to sheet
+        var add = {};
+        add[row] = {
+          1: startDate,
+          2: startTime,
+          3: endDate,
+          4: endTime,
+          5: summary
+        };
 
-      Spreadsheet.load({
-        debug: true,
-        spreadsheetId: sheetId,
-        worksheetId: 'od6',
-        accessToken: {
-          type: 'Bearer',
-          token: token
-        },
-      }, function sheetReady(err, spreadsheet) {
-        if (err) throw err;
-
-        spreadsheet.add(add);
-
-        spreadsheet.send({
-          autoSize: true
-        }, function(err) {
+        Spreadsheet.load({
+          debug: true,
+          spreadsheetId: sheetId,
+          worksheetId: 'od6',
+          accessToken: {
+            type: 'Bearer',
+            token: token
+          },
+        }, function sheetReady(err, spreadsheet) {
           if (err) throw err;
-          res.end();
+
+          spreadsheet.add(add);
+
+          spreadsheet.send({
+            autoSize: true
+          }, function(err) {
+            if (err) throw err;
+            res.end();
+          });
+
         });
 
-      });
+        var options = {
+          method: 'PUT',
+          url: 'https://www.googleapis.com/calendar/v3/calendars/' + CalId + '/events/' + eventId,
+          json: req.body.event,
+          auth: {
+            bearer: token
+          }
+        }
 
-    });
-
-    var options = {
-      method: 'PUT',
-      url: 'https://www.googleapis.com/calendar/v3/calendars/' + CalId + '/events/' + eventId,
-      json: req.body.event,
-      auth: {
-        bearer: token
+        request(options, function(err, response, body) {
+          if (err) throw err;
+          res.send(body);
+        });
       }
-    }
-
-    request(options, function(err, response, body) {
-      if (err) throw err;
-      res.send(body);
     });
-
   }
 
 
@@ -241,54 +242,58 @@ function GoogleApiHandler() {
       }]
     }).exec(function(err, result) {
       if (err) throw err;
-      var row = result.sheet.row;
-      var sheetId = result.sheet.id;
+      if (result === null) {
+        res.end('NO')
+      } else {
+        var row = result.sheet.row;
+        var sheetId = result.sheet.id;
 
-      // send to sheet
-      var add = {};
-      add[row] = {
-        1: 'Deleted Event',
-        2: 'leave this row',
-        3: 'to maintain',
-        4: 'order',
-        5: ''
-      };
+        // send to sheet
+        var add = {};
+        add[row] = {
+          1: 'Deleted Event',
+          2: 'leave this row',
+          3: 'to maintain',
+          4: 'order',
+          5: ''
+        };
 
-      Spreadsheet.load({
-        debug: true,
-        spreadsheetId: sheetId,
-        worksheetId: 'od6',
-        accessToken: {
-          type: 'Bearer',
-          token: token
-        },
-      }, function sheetReady(err, spreadsheet) {
-        if (err) throw err;
-
-        spreadsheet.add(add);
-
-        spreadsheet.send(function(err) {
+        Spreadsheet.load({
+          debug: true,
+          spreadsheetId: sheetId,
+          worksheetId: 'od6',
+          accessToken: {
+            type: 'Bearer',
+            token: token
+          },
+        }, function sheetReady(err, spreadsheet) {
           if (err) throw err;
-          res.end();
+
+          spreadsheet.add(add);
+
+          spreadsheet.send(function(err) {
+            if (err) throw err;
+            res.end();
+          });
+
         });
 
-      });
+        // delete from calendar
+        var options = {
+          method: 'DELETE',
+          url: 'https://www.googleapis.com/calendar/v3/calendars/' + CalId + '/events/' + eventId,
+          json: req.body.event,
+          auth: {
+            bearer: token
+          }
+        }
 
-    });
+        request(options, function(err, response, body) {
+          if (err) throw err;
+          res.send(response);
+        });
 
-    // delete from calendar
-    var options = {
-      method: 'DELETE',
-      url: 'https://www.googleapis.com/calendar/v3/calendars/' + CalId + '/events/' + eventId,
-      json: req.body.event,
-      auth: {
-        bearer: token
       }
-    }
-
-    request(options, function(err, response, body) {
-      if (err) throw err;
-      res.send(response);
     });
 
   }
