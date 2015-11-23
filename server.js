@@ -25,7 +25,7 @@ app.use('/controllers', express.static(process.cwd() + '/app/controllers'));
 app.use('/public', express.static(process.cwd() + '/public'));
 
 app.use(session({
-  secret: 'secretClementine',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true
 }));
