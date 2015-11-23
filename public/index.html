@@ -74,7 +74,7 @@
 
 		<div class="row">
 
-			<div class="col-sm-4">
+			<div class="col-sm-4 form">
 
 				<form name="myForm">
 
@@ -169,9 +169,6 @@
 					<input type="button" id="update" ng-show="appCtrl.isEditing" ng-click="appCtrl.updateEvent()" class="btn btn-primary btn-lg" name="update" value="Update" scroll-on-click/>
 					<input type="button" id="canel-edit" ng-show="appCtrl.isEditing" ng-click="appCtrl.cancelEdit()" class="btn btn-primary btn-lg" name="canel-edit" value="Cancel Edit" />
 				</form>
-				<pre>
-					{{ appCtrl.myForm | json}}
-				</pre>
 
 
 			</div>
@@ -180,7 +177,7 @@
 				<button type="button" class="btn btn-default" ng-click="appCtrl.revealSheet(); ">View Sheet</button>
 				<hr>
 				<div uib-collapse="appCtrl.isCollapsed">
-					<div>
+					<div class="table-responsive">
 						<table class="table table-striped">
 							<tr>
 								<th>

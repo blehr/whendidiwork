@@ -2,14 +2,52 @@
    HELPERS
 ******************************/
 
+html, button, input, select, textarea {
+  color: #222
+}
+html {
+  font-size: 1em;
+  line-height: 1.4
+}
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none
+}
+::selection {
+  background: #b3d4fc;
+  text-shadow: none
+}
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0
+}
+audio, canvas, img, video {
+  vertical-align: middle
+}
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0
+}
+textarea {
+  resize: vertical
+}
 body {
   font-family: 'Roboto', sans-serif;
-  font-size: 16px;
+  font-size: 14px;
+  line-height: 1.4;
   margin: 0;
   padding: 0;
 }
 textarea {
   width: 100%;
+}
+table {
+  font-size: 90%
 }
 .btn:focus {
   /* Remove outline when hovering over button */
@@ -50,10 +88,14 @@ header h1 {
   font-weight: 700;
 }
 header p {
+  font-size: 1.2em;
   margin-left: 20%;
   margin-right: 5%;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 nav {
+  font-size: 1.2em;
   width: 125px;
   margin: auto;
 }
@@ -129,47 +171,44 @@ header a:active {
   font-weight: 700;
   margin-bottom: 10px;
 }
-
+.form {
+  margin-bottom: 25px;
+}
+.calendar-events-col {
+  margin-bottom: 25px;
+}
 /****************************
     faq
 *****************************/
 
-.danger,
-.text-div span {
-    color: #ff0000;
-    font-weight: 700;
+.danger, .text-div span {
+  color: #ff0000;
+  font-weight: 700;
 }
-
 .text-div {
-    max-width: 500px;
-    margin: auto;
+  max-width: 500px;
+  margin: auto;
 }
-
 .contact-info {
-    list-style: none;
-    margin-bottom: 50px;
+  list-style: none;
+  margin-bottom: 50px;
 }
-
 .contact-header {
-    margin-top: 15px;
+  margin-top: 15px;
 }
-
 .contact-info a {
-    display: block;
-    background-repeat: no-repeat;
-    background-size: 20px 20px;
-    padding: 0 0 0 30px;
-    margin: 0 0 10px;
+  display: block;
+  background-repeat: no-repeat;
+  background-size: 20px 20px;
+  padding: 0 0 0 30px;
+  margin: 0 0 10px;
 }
-
 .contact-info li.mail a {
-    background-image: url('../img/mail.png');
+  background-image: url('../img/mail.png');
 }
-
 .contact-info li.twitter a {
-    background-image: url('../img/twitter.png');
+  background-image: url('../img/twitter.png');
 }
-
 
 /*******************************
     footer
@@ -207,6 +246,13 @@ footer {
     MEDIA QUERIES
   ******************************/
 
+@media only screen and (max-width: 700px) {
+  header p, header h1 {
+    text-align: center;
+    margin-left: 0;
+    margin-right: 0
+  }
+}
 @media (max-width: 768px) {
   .top-row-profile, .confirmation {
     text-align: left;
