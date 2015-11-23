@@ -70,7 +70,6 @@ module.exports = function(passport) {
               newUser.google.token = accessToken;
               newUser.google.displayName = profile.displayName;
               newUser.google.email = profile.emails[0].value;
-              newUser.nbrClicks.clicks = 0;
 
               newUser.save(function(err) {
                 if (err) {
