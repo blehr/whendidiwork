@@ -217,10 +217,14 @@
     self.removeEvent = function(eventId) {
       self.isCollapsed = true;
       $http.delete('/api/:id/delete-event/' + self.myForm.calendar + '/' + eventId).then(function(data) {
-        if (data = 'no') {
+        if (data.data.body != "") {
           self.confirmedSummary = 'This event can\'t be deleted';
+          self.confirmedStart = '';
+          self.confirmedEnd = '';
         } else {
           self.confirmedSummary = 'Event successfully deleted';
+          self.confirmedStart = '';
+          self.confirmedEnd = '';
         }
         self.cancelEdit();
         self.getCalendarEvents();
@@ -332,6 +336,8 @@
     self.eventConfirmation = function(data) {
       if (!data.data.summary) {
         self.confirmedSummary = 'This event can\'t be updated';
+        self.confirmedStart = '';
+        self.confirmedEnd = '';
       } else {
         self.confirmedSummary = data.data.summary;
         self.confirmedStart = data.data.start.dateTime;

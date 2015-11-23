@@ -37,7 +37,7 @@
 
 		<div class="row top-row">
 
-			<div class="col-sm-4 col-md-push-8 top-row-profile">
+			<div class="col-sm-4 col-sm-push-8 top-row-profile">
 				<div class="">
 					<p>Welcome,
 						<span id="display-name" ng-bind="appCtrl.user.google.displayName"></span>!</p>
@@ -45,7 +45,7 @@
 				</div>
 			</div>
 
-			<div class="col-sm-4 col-md-pull-4">
+			<div class="col-sm-4 col-sm-pull-4">
 				<div class="open-links">
 					<a href="https://calendar.google.com">Open Calendar</a>
 					<br>
@@ -53,7 +53,7 @@
 				</div>
 			</div>
 
-			<div class="col-sm-4 col-md-pull-4 confirmation">
+			<div class="col-sm-4 col-sm-pull-4 confirmation">
 				<h4>Confirmation</h4>
 				<div class="panel panel-success" ng-show="appCtrl.confirmedSummary != ''">
 					<div class="panel-heading">
@@ -166,7 +166,7 @@
 					</div>
 
 					<input type="button" id="submit" ng-hide="appCtrl.isEditing" ng-click="appCtrl.submitForm()" class="btn btn-primary btn-lg" name="submit" value="Submit" scroll-on-click/>
-					<input type="button" id="update" ng-show="appCtrl.isEditing" ng-click="appCtrl.updateEvent()" class="btn btn-primary btn-lg" name="update" value="Update" />
+					<input type="button" id="update" ng-show="appCtrl.isEditing" ng-click="appCtrl.updateEvent()" class="btn btn-primary btn-lg" name="update" value="Update" scroll-on-click/>
 					<input type="button" id="canel-edit" ng-show="appCtrl.isEditing" ng-click="appCtrl.cancelEdit()" class="btn btn-primary btn-lg" name="canel-edit" value="Cancel Edit" />
 				</form>
 				<pre>
