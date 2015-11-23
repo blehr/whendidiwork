@@ -8,8 +8,7 @@
     "url": ""
   },
   "scripts": {
-    "start": "node server.js",
-    "postinstall": "bower install"
+    "start": "node server.js"
   },
   "author": "Brandon Lehr",
   "license": "MIT",
