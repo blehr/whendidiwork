@@ -55,6 +55,7 @@ module.exports = function(passport) {
                 });
               }
               //save new token
+              user.google.profileImg = profile.photos[0].value;
               user.google.token = accessToken;
               user.save(function(err) {
                   if (err) throw err;

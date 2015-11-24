@@ -43,7 +43,8 @@
 						<span id="display-name" ng-bind="appCtrl.user.google.displayName"></span><br>
 					<!-- </p> -->
 					<button type="button" name="logout" href="/logout" ng-click="appCtrl.logout()" class="btn btn-primary logout">LOG OUT</button>
-					<img ng-src="{{appCtrl.user.google.profileImg}}" class="img-rounded" alt="profile-picture" style="width: 50px; height: 50px;"/>
+					<img src="public/img/icon-user.png" ng-hide="appCtrl.user.google.profileImg" class="img-rounded" alt="profile-picture" style="width: 50px; height: 50px;"/>
+					<img ng-src="{{appCtrl.user.google.profileImg}}" ng-show="appCtrl.user.google.profileImg" class="img-rounded" alt="profile-picture" style="width: 50px; height: 50px;"/>
 
 				</div>
 			</div>
