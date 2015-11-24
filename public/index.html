@@ -37,7 +37,7 @@
 
 		<div class="row top-row">
 
-			<div class="col-sm-4 col-sm-push-8 top-row-profile">
+			<div class="col-sm-4 col-sm-push-8 top-row-profile" ng-cloak>
 				<div class="">
 					<!-- <p> -->
 						<span id="display-name" ng-bind="appCtrl.user.google.displayName"></span><br>
@@ -49,15 +49,15 @@
 				</div>
 			</div>
 
-			<div class="col-sm-4 col-sm-pull-4">
-				<div class="open-links">
+			<div class="col-sm-4 col-sm-pull-4 open-links">
+				<div class="">
 					<a class="primary" href="https://calendar.google.com">Open Calendar</a>
 					<br>
 					<a class="primary" ng-href="{{appCtrl.sheetLink}}">Open Sheet</a>
 				</div>
 			</div>
 
-			<div class="col-sm-4 col-sm-pull-4 confirmation">
+			<div class="col-sm-4 col-sm-pull-4 confirmation" ng-cloak>
 				<h4>Confirmation</h4>
 				<div class="panel panel-success" ng-show="appCtrl.confirmedSummary != ''">
 					<div class="panel-heading">
@@ -177,7 +177,7 @@
 
 			</div>
 
-			<div class="col-sm-8">
+			<div class="col-sm-8" ng-cloak>
 				<button type="button" class="btn btn-default" ng-click="appCtrl.revealSheet(); ">View Sheet</button>
 				<hr>
 				<div uib-collapse="appCtrl.isCollapsed">

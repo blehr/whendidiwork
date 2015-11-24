@@ -2,6 +2,9 @@
    HELPERS
 ******************************/
 
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
 html, button, input, select, textarea {
   color: #222
 }
@@ -162,9 +165,16 @@ header a:active {
   font-weight: 700;
 }
 .logout {
-  /*padding-top: 10px;*/
-  /*padding-bottom: 10px;*/
   height: 50px;
+}
+h4 {
+  margin-top: 0;
+}
+
+.open-links,
+.confirmation,
+.top-row-profile {
+  margin-bottom: 10px;
 }
 
 /*******************************
