@@ -82,7 +82,6 @@
       $http.post('/api/:id/create-calendar', {
         newCalendar
       }).then(function(data) {
-        console.log(data);
         $window.location.reload();
       })
     }
@@ -147,7 +146,9 @@
         self.user = result.data;
         self.myForm.calendar = self.user.lastUsed.calendar;
         self.myForm.sheet = self.user.lastUsed.sheet;
-        self.getCalendarEvents();
+        if (self.myForm.calendar != '') {
+          self.getCalendarEvents();
+        }
         self.getFiles();
       });
     };

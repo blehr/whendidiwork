@@ -89,7 +89,7 @@
 							<option ng-repeat="cal in appCtrl.listCalendars" ng-attr-value="{{ cal.id }}" ng-bind="cal.summary">
 							</option>
 						</select>
-						<div class="" ng-controller="CreateCalendarCtrl as calCtrl">
+						<div class="" ng-controller="CreateCalendarCtrl as calCtrl" ng-cloak>
 							<a class="primary" ng-click="calCtrl.isCollapsed = !calCtrl.isCollapsed">Create a new Calendar</a>
 							<hr>
 							<div uib-collapse="calCtrl.isCollapsed">
@@ -113,7 +113,7 @@
 							<option ng-repeat="sheet in appCtrl.sheets" ng-attr-value="{{ sheet.id }}" ng-attr-data-id="{{ sheet.title  }}" ng-attr-data-link="{{ 'https://docs.google.com/spreadsheets/d/' + sheet.id }}" ng-bind="sheet.title">
 							</option>
 						</select>
-						<div class="" ng-controller="CreateSheetCtrl as sheetCtrl">
+						<div class="" ng-controller="CreateSheetCtrl as sheetCtrl" ng-cloak>
 							<a class="primary" ng-click="sheetCtrl.isCollapsed = !sheetCtrl.isCollapsed">Create a new Sheet</a>
 							<hr>
 							<div uib-collapse="sheetCtrl.isCollapsed">
@@ -228,9 +228,9 @@
 						</div>
 						<div class="panel-footer">
 							<button type="button" name="edit-event" class="btn btn-default" ng-click="appCtrl.eventEditing(item.id, item.start.dateTime, item.end.dateTime, item.summary)" scroll-on-click>
-								<span class="glyphicon glyphicon-pencil"></span> edit</button>
+								<span class="glyphicon glyphicon-pencil"></span> EDIT</button>
 							<button type="button" name="delete-event" class="btn btn-default" ng-click="appCtrl.removeEvent(item.id)" scroll-on-click>
-								<span class="glyphicon glyphicon-trash"></span> delete</button>
+								<span class="glyphicon glyphicon-trash"></span> DELETE</button>
 						</div>
 					</div>
 

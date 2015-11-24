@@ -41,7 +41,7 @@ textarea {
 }
 body {
   font-family: 'Roboto', sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.4;
   margin: 0;
   padding: 0;
@@ -163,6 +163,7 @@ header a:active {
 }
 #display-name {
   font-weight: 700;
+  font-size: 1.2em;
 }
 .logout {
   height: 50px;
@@ -200,16 +201,19 @@ h4 {
 .calendar-event {
   margin-bottom: 15px;
 }
-.calendar-event-summary {
-  font-size: 1.15;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
 .form {
   margin-bottom: 25px;
 }
 .calendar-events-col {
   margin-bottom: 25px;
+}
+
+.panel {
+  max-width: 300px;
+  text-align: center;
+}
+.panel-footer button:first-of-type {
+  margin-right: 15%;
 }
 
 /****************************
