@@ -71,6 +71,8 @@ module.exports = function(passport) {
               newUser.google.displayName = profile.displayName;
               newUser.google.email = profile.emails[0].value;
               newUser.google.profileImg = profile.photos[0].value;
+              newUser.lastUsed.calendar = '';
+              newUser.lastUsed.sheet = '';
 
               newUser.save(function(err) {
                 if (err) {

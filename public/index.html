@@ -38,13 +38,12 @@
 		<div class="row top-row">
 
 			<div class="col-sm-4 col-sm-push-8 top-row-profile" ng-cloak>
-				<div class="">
-					<!-- <p> -->
-						<span id="display-name" ng-bind="appCtrl.user.google.displayName"></span><br>
-					<!-- </p> -->
+				<div>
+					<span id="display-name" ng-bind="appCtrl.user.google.displayName"></span>
+					<br>
 					<button type="button" name="logout" href="/logout" ng-click="appCtrl.logout()" class="btn btn-primary logout">LOG OUT</button>
-					<img src="public/img/icon-user.png" ng-hide="appCtrl.user.google.profileImg" class="img-rounded" alt="profile-picture" style="width: 50px; height: 50px;"/>
-					<img ng-src="{{appCtrl.user.google.profileImg}}" ng-show="appCtrl.user.google.profileImg" class="img-rounded" alt="profile-picture" style="width: 50px; height: 50px;"/>
+					<img src="public/img/icon-user.png" ng-hide="appCtrl.user.google.profileImg" class="img-rounded" alt="profile-picture" style="width: 50px; height: 50px;" />
+					<img ng-src="{{appCtrl.user.google.profileImg}}" ng-show="appCtrl.user.google.profileImg" class="img-rounded" alt="profile-picture" style="width: 50px; height: 50px;" />
 
 				</div>
 			</div>
@@ -111,7 +110,7 @@
 						<label for="sheet-select">Choose Spreadsheet</label>
 						<select class="form-control" name="sheet-select" id="sheet-select" ng-change="appCtrl.updateSheetProps()" ng-model="appCtrl.myForm.sheet" ng-required>
 							<option value="" selected>Choose Spreadsheet</option>
-							<option ng-repeat="sheet in appCtrl.sheets" ng-attr-value="{{ sheet.title }}" ng-attr-data-id="{{ sheet.id  }}" ng-attr-data-link="{{ 'https://docs.google.com/spreadsheets/d/' + sheet.id }}" ng-bind="sheet.title">
+							<option ng-repeat="sheet in appCtrl.sheets" ng-attr-value="{{ sheet.id }}" ng-attr-data-id="{{ sheet.title  }}" ng-attr-data-link="{{ 'https://docs.google.com/spreadsheets/d/' + sheet.id }}" ng-bind="sheet.title">
 							</option>
 						</select>
 						<div class="" ng-controller="CreateSheetCtrl as sheetCtrl">

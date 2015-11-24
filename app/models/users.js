@@ -10,6 +10,10 @@ var User = new Schema({
     displayName: String,
     email: String,
     profileImg: String
+  },
+  lastUsed: {
+    calendar: String,
+    sheet: String
   }
 });
 

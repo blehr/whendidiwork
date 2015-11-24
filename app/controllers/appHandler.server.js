@@ -3,6 +3,8 @@
 var request = require('request');
 var moment = require('moment');
 var Event = require('../models/event.js');
+var User = require('../models/users.js');
+
 var Spreadsheet = require('edit-google-spreadsheet');
 
 /* use a function for the exact format desired... */
@@ -46,7 +48,6 @@ function GoogleApiHandler() {
   this.getEvents = function(req, res) {
     var token = req.user.google.token;
     var CalId = req.params.calendarId;
-    console.log(CalId);
 
     var options = {
       url: 'https://www.googleapis.com/calendar/v3/calendars/' +
@@ -79,6 +80,18 @@ function GoogleApiHandler() {
     var endTime = moment(event.end.dateTime).format('hh:mm A');
     var summary = event.summary;
 
+    // track last used calendar and sheet
+    var user = User.findOne({
+      'google.id': req.user.google.id
+    }, function(err, user) {
+
+      user.lastUsed.calendar = CalId;
+      user.lastUsed.sheet = sheetId;
+
+      user.save(function(err, doc) {
+        if (err) throw err;
+      })
+    });
 
     // send to sheet
     var add = {};
@@ -107,7 +120,6 @@ function GoogleApiHandler() {
         autoSize: true
       }, function(err) {
         if (err) throw err;
-        // res.end();
       });
 
     });
@@ -140,6 +152,8 @@ function GoogleApiHandler() {
         }
       });
 
+
+
       newEvent.save(function(err, doc) {
         if (err) {
           throw err;
@@ -148,9 +162,9 @@ function GoogleApiHandler() {
 
       res.send(body);
     });
-
-
   }
+
+
 
 
   this.updateEvent = function(req, res) {
@@ -344,7 +358,6 @@ function GoogleApiHandler() {
 
   this.createCalendar = function(req, res) {
     var token = req.user.google.token;
-    console.log(req.body.newCalendar);
 
     var options = {
       method: 'POST',
@@ -364,7 +377,6 @@ function GoogleApiHandler() {
 
   this.createSheet = function(req, res) {
     var token = req.user.google.token;
-    console.log(req.body.newSheet);
 
     var options = {
       method: 'POST',

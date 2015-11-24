@@ -140,9 +140,23 @@
 
     self.isEditing = false;
 
+
+
     self.getUser = function() {
       UserService.getUser().then(function(result) {
         self.user = result.data;
+        self.myForm.calendar = self.user.lastUsed.calendar;
+        self.myForm.sheet = self.user.lastUsed.sheet;
+        self.getCalendarEvents();
+        self.getFiles();
+      });
+    };
+
+    self.getFiles = function() {
+      self.isCollapsed = true;
+      UserService.getFiles().then(function(data) {
+        self.sheets = data.data.items;
+        self.updateSheetProps();
       });
     };
 
@@ -157,12 +171,8 @@
       })
     }
 
-    self.getFiles = function() {
-      self.isCollapsed = true;
-      UserService.getFiles().then(function(data) {
-        self.sheets = data.data.items;
-      });
-    };
+
+
 
     self.eventEditing = function(id, start, end, summary) {
       self.isEditing = true;
@@ -297,7 +307,7 @@
         self.sheetId = '';
       } else {
         angular.forEach(self.sheets, function(sheet) {
-          if (sheet.title === self.myForm.sheet) {
+          if (sheet.id === self.myForm.sheet) {
             self.sheetLink = 'https://docs.google.com/spreadsheets/d/' + sheet.id;
             self.myForm.summary = sheet.title.substring(12) + ': ';
             self.sheetId = sheet.id;
@@ -350,7 +360,6 @@
 
     //initial calls
     self.getCalendarsList();
-    self.getFiles();
     self.getUser();
 
 
