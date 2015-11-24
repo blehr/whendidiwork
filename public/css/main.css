@@ -43,6 +43,9 @@ body {
   margin: 0;
   padding: 0;
 }
+p {
+  font-size: 16px;
+}
 textarea {
   width: 100%;
 }
@@ -61,6 +64,18 @@ table {
 }
 pre {
   margin-top: 15px;
+}
+h1 {
+  font-weight: 700;
+}
+.primary {
+  font-family: "Roboto", Helvetica, sans-serif;
+  color: #3372df;
+  font-weight: 700;
+  display: inline-block;
+  line-height: 1;
+  letter-spacing: 1px;
+  text-decoration: none;
 }
 .text-div {
   max-width: 500px;
@@ -95,6 +110,7 @@ header p {
   margin-bottom: 15px;
 }
 nav {
+  text-align: center;
   font-size: 1.2em;
   width: 125px;
   margin: auto;
@@ -108,6 +124,9 @@ nav ul li {
   display: inline-block;
   margin-right: 20px;
   margin-bottom: 0;
+}
+nav ul li:last-of-type {
+  margin-right: 0;
 }
 header a {
   color: #fff;
@@ -140,7 +159,12 @@ header a:active {
   text-align: right;
 }
 #display-name {
-  font-weight: 400;
+  font-weight: 700;
+}
+.logout {
+  /*padding-top: 10px;*/
+  /*padding-bottom: 10px;*/
+  height: 50px;
 }
 
 /*******************************
@@ -177,6 +201,7 @@ header a:active {
 .calendar-events-col {
   margin-bottom: 25px;
 }
+
 /****************************
     faq
 *****************************/
@@ -190,6 +215,7 @@ header a:active {
   margin: auto;
 }
 .contact-info {
+  font-size: 1.2em;
   list-style: none;
   margin-bottom: 50px;
 }

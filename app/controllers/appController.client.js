@@ -172,6 +172,9 @@
       self.myForm.summary = summary;
     }
 
+    self.logout = function() {
+      $window.location.href = '/logout';
+    }
 
     self.updateEvent = function() {
       self.isCollapsed = true;

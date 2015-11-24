@@ -8,7 +8,8 @@ var User = new Schema({
     id: String,
     token: String,
     displayName: String,
-    email: String
+    email: String,
+    profileImg: String
   }
 });
 

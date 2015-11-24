@@ -27,7 +27,6 @@ module.exports = function(passport) {
     },
     function(req, accessToken, refreshToken, profile, done) {
       process.nextTick(function() {
-
         if (!req.user) {
 
           User.findOne({
@@ -46,6 +45,7 @@ module.exports = function(passport) {
                 user.google.token = accessToken;
                 user.google.displayName = profile.displayName;
                 user.google.email = profile.emails[0].value;
+                user.google.profileImg = profile.photos[0].value;
 
 
                 user.save(function(err) {
@@ -54,7 +54,6 @@ module.exports = function(passport) {
                   return done(null, user);
                 });
               }
-
               //save new token
               user.google.token = accessToken;
               user.save(function(err) {
@@ -70,6 +69,7 @@ module.exports = function(passport) {
               newUser.google.token = accessToken;
               newUser.google.displayName = profile.displayName;
               newUser.google.email = profile.emails[0].value;
+              newUser.google.profileImg = profile.photos[0].value;
 
               newUser.save(function(err) {
                 if (err) {
@@ -89,7 +89,7 @@ module.exports = function(passport) {
           user.google.token = accessToken;
           user.google.displayName = profile.displayName;
           user.google.email = profile.emails[0].value;
-
+          user.google.profileImg = profile.photos[0].value;
           // save the user
           user.save(function(err) {
             if (err)
