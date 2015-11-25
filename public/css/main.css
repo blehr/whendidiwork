@@ -106,7 +106,7 @@ header h1 {
   font-weight: 700;
 }
 header p {
-  font-size: 1.2em;
+  font-size: 110%;
   margin-left: 20%;
   margin-right: 5%;
   margin-top: 15px;
@@ -114,7 +114,7 @@ header p {
 }
 nav {
   text-align: center;
-  font-size: 1.2em;
+  font-size: 1em;
   width: 125px;
   margin: auto;
 }
@@ -171,10 +171,7 @@ header a:active {
 h4 {
   margin-top: 0;
 }
-
-.open-links,
-.confirmation,
-.top-row-profile {
+.open-links, .confirmation, .top-row-profile {
   margin-bottom: 10px;
 }
 
@@ -207,7 +204,6 @@ h4 {
 .calendar-events-col {
   margin-bottom: 25px;
 }
-
 .panel {
   max-width: 300px;
   text-align: center;
@@ -291,6 +287,9 @@ footer {
     text-align: center;
     margin-left: 0;
     margin-right: 0
+  }
+  header p {
+    font-size: 95%;
   }
 }
 @media (max-width: 768px) {
