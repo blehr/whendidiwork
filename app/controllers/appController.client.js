@@ -157,7 +157,11 @@
       self.isCollapsed = true;
       UserService.getFiles().then(function(data) {
         self.sheets = data.data.items;
-        self.updateSheetProps();
+        if (self.sheets.length === 0) {
+          self.confirmedSummary = 'To begin, first create a whendidiwork sheet';
+        } else {
+          self.updateSheetProps();
+        }
       });
     };
 
