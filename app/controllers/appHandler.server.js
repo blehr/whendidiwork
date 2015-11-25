@@ -176,9 +176,9 @@ function GoogleApiHandler() {
     var event = req.body.event;
     moment.tz.setDefault(event.start.timeZone);
     var startDate = moment(event.start.dateTime).format('ddd MM/DD/YYYY');
-    var startTime = moment(event.start.dateTime).format('HH:mm A');
+    var startTime = moment(event.start.dateTime).format('hh:mm A');
     var endDate = moment(event.end.dateTime).format('ddd MM/DD/YYYY');
-    var endTime = moment(event.end.dateTime).format('HH:mm A');
+    var endTime = moment(event.end.dateTime).format('hh:mm A');
     var summary = event.summary;
 
     Event.findOne({
