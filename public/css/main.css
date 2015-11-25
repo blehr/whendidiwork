@@ -65,6 +65,9 @@ table {
   -webkit-transform: scale(0.9, 0.9);
   -moz-transform: scale(0.9, 0.9);
 }
+.btn-primary {
+  background-color: #1976D2;
+}
 pre {
   margin-top: 15px;
 }
@@ -81,7 +84,7 @@ h1 {
   text-decoration: none;
 }
 .text-div {
-  width: 90%;
+  /*width: 90%;*/
   max-width: 500px;
   margin: auto;
 }
@@ -183,10 +186,26 @@ h4 {
 .main-content {
   min-height: 600px;
 }
-
 .login-google {
-  width: 100%;
-  margin-bottom: 10px;
+  width: 207px;
+  margin: auto;
+  display: block;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+.login-message h1 {
+  text-align: center;
+  margin-top: 35px;
+  margin-bottom: 25px;
+}
+
+.logo-div {
+  max-width: 350px;
+  margin-left: auto;
+  margin-bottom: 50px;
+}
+.login-logo {
+  width: 100%
 }
 
 /*******************************
@@ -288,6 +307,13 @@ footer {
 @media (max-width: 768px) {
   .top-row-profile, .confirmation {
     text-align: left;
+  }
+  .main-content {
+    width: 90%
+  }
+  .logo-div {
+    margin-left: auto;
+    margin-right: auto;
   }
   .footer-div {
     height: 100%;
