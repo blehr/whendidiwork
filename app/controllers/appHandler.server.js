@@ -1,7 +1,8 @@
 'use strict';
 
 var request = require('request');
-var moment = require('moment');
+// var moment = require('moment');
+var moment = require('moment-timezone');
 var Event = require('../models/event.js');
 var User = require('../models/users.js');
 
@@ -74,6 +75,7 @@ function GoogleApiHandler() {
     var sheetId = req.params.sheetId;
     var nextRow = req.params.nextRow;
     var event = req.body.event;
+    moment.tz.setDefault(event.start.timeZone);
     var startDate = moment(event.start.dateTime).format('ddd MM/DD/YYYY');
     var startTime = moment(event.start.dateTime).format('hh:mm A');
     var endDate = moment(event.end.dateTime).format('ddd MM/DD/YYYY');
@@ -172,6 +174,7 @@ function GoogleApiHandler() {
     var token = req.user.google.token;
     var CalId = req.params.calendarId;
     var event = req.body.event;
+    moment.tz.setDefault(event.start.timeZone);
     var startDate = moment(event.start.dateTime).format('ddd MM/DD/YYYY');
     var startTime = moment(event.start.dateTime).format('HH:mm A');
     var endDate = moment(event.end.dateTime).format('ddd MM/DD/YYYY');
