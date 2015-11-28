@@ -98,4 +98,7 @@ module.exports = function(app, passport) {
   app.route('/api/:id/delete-event/:calendarId/:eventId')
     .delete(isLoggedIn, googleApiHandler.deleteEvent);
 
+  app.route('/api/:id/check-token')
+    .get(isLoggedIn, googleApiHandler.checkToken);
+
 };

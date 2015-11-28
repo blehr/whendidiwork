@@ -397,6 +397,20 @@ function GoogleApiHandler() {
 
   }
 
+  this.checkToken = function(req, res) {
+    var token = req.user.google.token;
+
+    var options = {
+      method: 'GET',
+      url: 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' + token,
+    }
+    request(options, function(err, response, body) {
+      if (err) throw err;
+      res.send(body);
+    });
+
+  }
+
 
 }
 

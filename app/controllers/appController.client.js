@@ -122,7 +122,7 @@
     }
   ])
 
-  .controller('AppCtrl', ['$scope', '$http', 'UserService', '$window', '$uibModal', function($scope, $http, UserService, $window, $uibModal) {
+  .controller('AppCtrl', ['$scope', '$http', 'UserService', '$window', '$uibModal', '$timeout', function($scope, $http, UserService, $window, $uibModal, $timeout) {
 
     var self = this;
 
@@ -138,8 +138,6 @@
     self.confirmedSummary = '';
 
     self.isEditing = false;
-
-
 
     self.getUser = function() {
       UserService.getUser().then(function(result) {
@@ -363,9 +361,35 @@
       }
     }
 
+    self.checkTokenTime = function() {
+      $timeout(self.checkTimediff, 300000); //5 minutes
+    }
+
+    self.checkTimediff = function() {
+      $http.get('api/:id/check-token', {
+          ignoreLoadingBar: true
+      }).then(function(data) {
+        console.log(data.data.expires_in);
+        if (data.data.expires_in < 300) {
+          $window.location.href = '/logout';
+        }
+        if (data.data.expires_in < 600) {
+          self.confirmedSummary = '5 minutes remaining on this session.';
+          self.confirmedStart = 'Please log out and back in, to start again.';
+        }
+        self.checkTokenTime();
+      });
+
+    }
+
+
+
+
     //initial calls
-    self.getCalendarsList();
     self.getUser();
+    self.getCalendarsList();
+    self.checkTokenTime();
+
 
 
   }])
