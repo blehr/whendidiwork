@@ -4,38 +4,15 @@
 
   angular.module('app', ['ui.bootstrap.datetimepicker', 'angular-loading-bar', 'ui.bootstrap', 'ngAnimate'])
 
-  .service('UserService', ['$http', '$window', '$q', function($http, $window, $q) {
+  .factory('UserFactory', function($http) {
+    var user = {};
 
-    var appUrl = $window.location.origin;
-    var apiUrl = appUrl + '/api/:id';
-
-    var deferred = $q.defer();
-    var deferred2 = $q.defer();
-    var deferred3 = $q.defer();
-
-    this.getUser = function() {
-      $http.get(apiUrl).then(function(result) {
-        deferred.resolve(result);
-      });
-
-      return deferred.promise;
-    };
-
-    this.getCalendarsList = function() {
-      $http.get('/api/:id/calendarlist').then(function(data) {
-        deferred2.resolve(data);
-      })
-      return deferred2.promise;
-    };
-
-    this.getFiles = function() {
-      $http.get('api/:id/drivelist').then(function(data) {
-        deferred3.resolve(data);
-      })
-      return deferred3.promise;
+    user.getUser = function() {
+      return $http.get('/api/:id');
     }
 
-  }])
+    return user;
+  })
 
   .factory('calendarFactory', function($http) {
     var calendarfactory = {};
@@ -70,28 +47,14 @@
     }
   })
 
-  .controller('CreateCalendarCtrl', ['$uibModal', 'UserService', '$http', '$window', '$scope', function($uibModal, UserService, $http, $window, $scope) {
+  .controller('CreateCalendarCtrl', ['$uibModal', '$http', '$window', '$scope', function($uibModal, $http, $window, $scope) {
     var cal = this;
 
     cal.isCollapsed = true;
 
-    cal.getUser = function() {
-      UserService.getUser().then(function(result) {
-        cal.user = result.data;
-      });
-    };
-
-
-    cal.getCalendarsList = function() {
-      UserService.getCalendarsList().then(function(data) {
-        cal.listCalendars = data.data.items;
-        cal.listCalendars.forEach(function(calendar) {
-          if (calendar.primary === true) {
-            cal.timeZone = calendar.timeZone;
-          }
-        })
-      })
-    }
+    $scope.$on('setTimeZone', function(event, args) {
+      cal.timeZone = args.msg;
+    })
 
     cal.createCalendar = function() {
       cal.isCollapsed = true;
@@ -108,22 +71,13 @@
       })
     }
 
-    cal.getUser();
-    cal.getCalendarsList();
-
   }])
 
-  .controller('CreateSheetCtrl', ['$uibModal', 'UserService', '$http', '$window', '$scope',
-    function($uibModal, UserService, $http, $window, $scope) {
+  .controller('CreateSheetCtrl', ['$uibModal', '$http', '$window', '$scope',
+    function($uibModal, $http, $window, $scope) {
       var sheet = this;
 
       sheet.isCollapsed = true;
-
-      sheet.getUser = function() {
-        UserService.getUser().then(function(result) {
-          sheet.user = result.data;
-        });
-      };
 
       sheet.createSheet = function() {
         sheet.isCollapsed = true;
@@ -141,12 +95,10 @@
 
       }
 
-      sheet.getUser();
-
     }
   ])
 
-  .controller('AppCtrl', ['$scope', '$http', 'UserService', '$window', '$uibModal', '$timeout', 'calendarFactory', 'sheetFactory', function($scope, $http, UserService, $window, $uibModal, $timeout, calendarFactory, sheetFactory) {
+  .controller('AppCtrl', ['$scope', '$http', 'UserFactory', '$window', '$uibModal', '$timeout', 'calendarFactory', 'sheetFactory', function($scope, $http, UserFactory, $window, $uibModal, $timeout, calendarFactory, sheetFactory) {
 
     var self = this;
 
@@ -158,9 +110,7 @@
     self.myForm.calendar = '';
     self.myForm.eventId = '';
     self.sheetId = '';
-
     self.confirmedSummary = '';
-
     self.isEditing = false;
 
     self.getMySheets = sheetFactory.getSheets;
@@ -185,9 +135,8 @@
       })
     })
 
-
     self.getUser = function() {
-      UserService.getUser().then(function(result) {
+      UserFactory.getUser().then(function(result) {
         self.user = result.data;
         self.myForm.calendar = self.user.lastUsed.calendar;
         self.myForm.sheet = self.user.lastUsed.sheet;
@@ -200,7 +149,7 @@
 
     self.getFiles = function() {
       self.isCollapsed = true;
-      UserService.getFiles().then(function(data) {
+      self.getMySheets().then(function(data) {
         self.sheets = data.data.items;
         if (self.sheets.length === 0) {
           self.confirmedSummary = 'To begin, first create a whendidiwork sheet';
@@ -208,19 +157,21 @@
           self.updateSheetProps();
         }
       });
-    };
+    }
 
     self.getCalendarsList = function() {
-      UserService.getCalendarsList().then(function(data) {
+      self.getMyCalendars().then(function(data) {
         self.listCalendars = data.data.items;
         self.listCalendars.forEach(function(cal) {
           if (cal.primary === true) {
             self.timeZone = cal.timeZone;
+            $scope.$broadcast('setTimeZone', {
+              msg: self.timeZone
+            });
           }
         })
       })
     }
-
 
 
 
