@@ -37,6 +37,26 @@
 
   }])
 
+  .factory('calendarFactory', function($http) {
+    var calendarfactory = {};
+
+    calendarfactory.getCalendars = function() {
+      return $http.get('/api/:id/calendarlist');
+    }
+
+    return calendarfactory;
+  })
+
+  .factory('sheetFactory', function($http) {
+    var sheetfactory = {};
+
+    sheetfactory.getSheets = function() {
+      return $http.get('api/:id/drivelist');
+    }
+
+    return sheetfactory;
+  })
+
   .directive('scrollOnClick', function() {
     return {
       restrict: 'A',
@@ -50,7 +70,7 @@
     }
   })
 
-  .controller('CreateCalendarCtrl', ['$uibModal', 'UserService', '$http', '$window', function($uibModal, UserService, $http, $window) {
+  .controller('CreateCalendarCtrl', ['$uibModal', 'UserService', '$http', '$window', '$scope', function($uibModal, UserService, $http, $window, $scope) {
     var cal = this;
 
     cal.isCollapsed = true;
@@ -82,7 +102,9 @@
       $http.post('/api/:id/create-calendar', {
         newCalendar
       }).then(function(data) {
-        $window.location.reload();
+        $scope.$emit('createdCalendar', {
+          msg: "hello"
+        });
       })
     }
 
@@ -91,8 +113,8 @@
 
   }])
 
-  .controller('CreateSheetCtrl', ['$uibModal', 'UserService', '$http', '$window',
-    function($uibModal, UserService, $http, $window) {
+  .controller('CreateSheetCtrl', ['$uibModal', 'UserService', '$http', '$window', '$scope',
+    function($uibModal, UserService, $http, $window, $scope) {
       var sheet = this;
 
       sheet.isCollapsed = true;
@@ -112,7 +134,9 @@
         $http.post('api/:id/create-sheet', {
           newSheet
         }).then(function(data) {
-          $window.location.reload();
+          $scope.$emit('createdSheet', {
+            msg: "hello"
+          });
         })
 
       }
@@ -122,7 +146,7 @@
     }
   ])
 
-  .controller('AppCtrl', ['$scope', '$http', 'UserService', '$window', '$uibModal', '$timeout', function($scope, $http, UserService, $window, $uibModal, $timeout) {
+  .controller('AppCtrl', ['$scope', '$http', 'UserService', '$window', '$uibModal', '$timeout', 'calendarFactory', 'sheetFactory', function($scope, $http, UserService, $window, $uibModal, $timeout, calendarFactory, sheetFactory) {
 
     var self = this;
 
@@ -138,6 +162,29 @@
     self.confirmedSummary = '';
 
     self.isEditing = false;
+
+    self.getMySheets = sheetFactory.getSheets;
+
+    $scope.$on('createdSheet', function() {
+      self.getMySheets().then(function(data) {
+        self.sheets = data.data.items;
+        self.updateSheetProps();
+      });
+    })
+
+    self.getMyCalendars = calendarFactory.getCalendars;
+
+    $scope.$on('createdCalendar', function() {
+      self.getMyCalendars().then(function(data) {
+        self.listCalendars = data.data.items;
+        self.listCalendars.forEach(function(cal) {
+          if (cal.primary === true) {
+            self.timeZone = cal.timeZone;
+          }
+        })
+      })
+    })
+
 
     self.getUser = function() {
       UserService.getUser().then(function(result) {
@@ -367,7 +414,7 @@
 
     self.checkTimediff = function() {
       $http.get('api/:id/check-token', {
-          ignoreLoadingBar: true
+        ignoreLoadingBar: true
       }).then(function(data) {
         console.log(data.data.expires_in);
         if (data.data.expires_in < 300) {
