@@ -2,103 +2,30 @@
 
 (function() {
 
-  angular.module('app', ['ui.bootstrap.datetimepicker', 'angular-loading-bar', 'ui.bootstrap', 'ngAnimate'])
-
-  .factory('UserFactory', function($http) {
-    var user = {};
-
-    user.getUser = function() {
-      return $http.get('/api/:id');
-    }
-
-    return user;
-  })
-
-  .factory('calendarFactory', function($http) {
-    var calendarfactory = {};
-
-    calendarfactory.getCalendars = function() {
-      return $http.get('/api/:id/calendarlist');
-    }
-
-    return calendarfactory;
-  })
-
-  .factory('sheetFactory', function($http) {
-    var sheetfactory = {};
-
-    sheetfactory.getSheets = function() {
-      return $http.get('api/:id/drivelist');
-    }
-
-    return sheetfactory;
-  })
-
-  .directive('scrollOnClick', function() {
-    return {
-      restrict: 'A',
-      link: function(scope, $elm) {
-        $elm.on('click', function() {
-          $("body").animate({
-            scrollTop: $('.top-row').offset().top
-          }, "slow");
-        });
-      }
-    }
-  })
-
-  .controller('CreateCalendarCtrl', ['$uibModal', '$http', '$window', '$scope', function($uibModal, $http, $window, $scope) {
-    var cal = this;
-
-    cal.isCollapsed = true;
-
-    $scope.$on('setTimeZone', function(event, args) {
-      cal.timeZone = args.msg;
-    })
-
-    cal.createCalendar = function() {
-      cal.isCollapsed = true;
-      var newCalendar = {};
-      newCalendar.summary = 'whendidiwork@' + cal.newCalendar;
-      newCalendar.timeZone = cal.timeZone;
-
-      $http.post('/api/:id/create-calendar', {
-        newCalendar
-      }).then(function(data) {
-        $scope.$emit('createdCalendar', {
-          msg: "hello"
-        });
-      })
-    }
-
-  }])
-
-  .controller('CreateSheetCtrl', ['$uibModal', '$http', '$window', '$scope',
-    function($uibModal, $http, $window, $scope) {
-      var sheet = this;
-
-      sheet.isCollapsed = true;
-
-      sheet.createSheet = function() {
-        sheet.isCollapsed = true;
-        var newSheet = {};
-        newSheet.title = 'whendidiwork@' + sheet.newSheet;
-        newSheet.mimeType = 'application/vnd.google-apps.spreadsheet'
-
-        $http.post('api/:id/create-sheet', {
-          newSheet
-        }).then(function(data) {
-          $scope.$emit('createdSheet', {
-            msg: "hello"
-          });
-        })
-
-      }
-
-    }
+  angular.module('app', [
+    'ui.bootstrap.datetimepicker',
+    'angular-loading-bar',
+    'ui.bootstrap',
+    'ngAnimate',
+    'app.factory',
+    'createCalendar',
+    'createSheet',
+    'app.directive'
   ])
 
-  .controller('AppCtrl', ['$scope', '$http', 'UserFactory', '$window', '$uibModal', '$timeout', 'calendarFactory', 'sheetFactory', function($scope, $http, UserFactory, $window, $uibModal, $timeout, calendarFactory, sheetFactory) {
+  .controller('AppCtrl', [
+    '$scope',
+    '$http',
+    '$window',
+    '$uibModal',
+    '$timeout',
+    'appFactory',
+    function($scope,
+      $http,
+      $window,
+      $uibModal,
+      $timeout,
+      appFactory) {
 
     var self = this;
 
@@ -113,7 +40,7 @@
     self.confirmedSummary = '';
     self.isEditing = false;
 
-    self.getMySheets = sheetFactory.getSheets;
+    self.getMySheets = appFactory.getSheets;
 
     $scope.$on('createdSheet', function() {
       self.getMySheets().then(function(data) {
@@ -122,7 +49,7 @@
       });
     })
 
-    self.getMyCalendars = calendarFactory.getCalendars;
+    self.getMyCalendars = appFactory.getCalendars;
 
     $scope.$on('createdCalendar', function() {
       self.getMyCalendars().then(function(data) {
@@ -136,7 +63,7 @@
     })
 
     self.getUser = function() {
-      UserFactory.getUser().then(function(result) {
+      appFactory.getUser().then(function(result) {
         self.user = result.data;
         self.myForm.calendar = self.user.lastUsed.calendar;
         self.myForm.sheet = self.user.lastUsed.sheet;

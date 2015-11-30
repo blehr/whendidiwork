@@ -1,7 +1,6 @@
 'use strict';
 
 var request = require('request');
-// var moment = require('moment');
 var moment = require('moment-timezone');
 var Event = require('../models/event.js');
 var User = require('../models/users.js');
