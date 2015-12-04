@@ -144,11 +144,12 @@ header a:hover {
   text-decoration: none;
 }
 header a:focus {
-  color: #00695C;
+  color: #FF80AB;
+  font-weight: 700;
   text-decoration: none;
 }
 header a:active {
-  color: #00695C;
+  color: #FF4081;
   text-decoration: none;
 }
 
@@ -222,10 +223,13 @@ h4 {
   margin-bottom: 25px;
 }
 .calendar-events-col {
+  text-align: center;
   margin-bottom: 25px;
 }
 .panel {
   max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
   text-align: center;
 }
 .panel-footer button:first-of-type {
@@ -292,6 +296,12 @@ footer {
   display: table-cell;
   vertical-align: bottom;
 }
+footer a,
+footer a:hover,
+footer a:focus {
+  color: #fff;
+}
+
 
 /*******************************
     MEDIA QUERIES
