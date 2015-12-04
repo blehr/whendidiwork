@@ -10,9 +10,9 @@ var Spreadsheet = require('edit-google-spreadsheet');
 /* use a function for the exact format desired... */
 function ISODateString(d) {
   function pad(n) {
-    return n < 10 ? '0' + n : n
+    return n < 10 ? '0' + n : n;
   }
-  return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate()) + 'T' + pad(d.getUTCHours()) + ':' + pad(d.getUTCMinutes()) + ':' + pad(d.getUTCSeconds()) + 'Z'
+  return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate()) + 'T' + pad(d.getUTCHours()) + ':' + pad(d.getUTCMinutes()) + ':' + pad(d.getUTCSeconds()) + 'Z';
 }
 
 
@@ -42,7 +42,7 @@ function GoogleApiHandler() {
       res.send(body);
     });
 
-  }
+  };
 
 
   this.getEvents = function(req, res) {
@@ -64,7 +64,7 @@ function GoogleApiHandler() {
       if (err) throw err;
       res.send(body);
     });
-  }
+  };
 
 
 
@@ -91,7 +91,7 @@ function GoogleApiHandler() {
 
       user.save(function(err, doc) {
         if (err) throw err;
-      })
+      });
     });
 
     // send to sheet
@@ -134,7 +134,7 @@ function GoogleApiHandler() {
       auth: {
         bearer: token
       }
-    }
+    };
 
     request(options, function(err, response, body) {
       if (err) throw err;
@@ -163,7 +163,7 @@ function GoogleApiHandler() {
 
       res.send(body);
     });
-  }
+  };
 
 
 
@@ -189,7 +189,7 @@ function GoogleApiHandler() {
     }).exec(function(err, result) {
       if (err) throw err;
       if (result === null) {
-        res.end('NO')
+        res.end('NO');
       } else {
         var row = result.sheet.row;
         var sheetId = result.sheet.id;
@@ -233,7 +233,7 @@ function GoogleApiHandler() {
           auth: {
             bearer: token
           }
-        }
+        };
 
         request(options, function(err, response, body) {
           if (err) throw err;
@@ -241,7 +241,7 @@ function GoogleApiHandler() {
         });
       }
     });
-  }
+  };
 
 
   this.deleteEvent = function(req, res) {
@@ -259,7 +259,7 @@ function GoogleApiHandler() {
     }).exec(function(err, result) {
       if (err) throw err;
       if (result === null) {
-        res.end('NO')
+        res.end('NO');
       } else {
         var row = result.sheet.row;
         var sheetId = result.sheet.id;
@@ -302,7 +302,7 @@ function GoogleApiHandler() {
           auth: {
             bearer: token
           }
-        }
+        };
 
         request(options, function(err, response, body) {
           if (err) throw err;
@@ -312,7 +312,7 @@ function GoogleApiHandler() {
       }
     });
 
-  }
+  };
 
 
   this.getFiles = function(req, res) {
@@ -324,13 +324,13 @@ function GoogleApiHandler() {
       auth: {
         bearer: token
       }
-    }
+    };
 
     request(options, function(err, response, body) {
       if (err) throw err;
       res.send(body);
     });
-  }
+  };
 
 
   this.getSheetMeta = function(req, res) {
@@ -356,7 +356,7 @@ function GoogleApiHandler() {
 
     });
 
-  }
+  };
 
   this.createCalendar = function(req, res) {
     var token = req.user.google.token;
@@ -368,14 +368,14 @@ function GoogleApiHandler() {
       auth: {
         bearer: token
       }
-    }
+    };
 
     request(options, function(err, response, body) {
       if (err) throw err;
       res.send(body);
     });
 
-  }
+  };
 
   this.createSheet = function(req, res) {
     var token = req.user.google.token;
@@ -387,14 +387,14 @@ function GoogleApiHandler() {
       auth: {
         bearer: token
       }
-    }
+    };
 
     request(options, function(err, response, body) {
       if (err) throw err;
       res.send(body);
     });
 
-  }
+  };
 
   this.checkToken = function(req, res) {
     var token = req.user.google.token;
@@ -402,13 +402,13 @@ function GoogleApiHandler() {
     var options = {
       method: 'GET',
       url: 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' + token,
-    }
+    };
     request(options, function(err, response, body) {
       if (err) throw err;
       res.send(body);
     });
 
-  }
+  };
 
 
 }

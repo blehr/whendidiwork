@@ -60,8 +60,7 @@ module.exports = function(passport) {
               user.save(function(err) {
                   if (err) throw err;
                   return done(null, user);
-                })
-                // return done(null, user);
+                });
 
             } else {
               var newUser = new User();

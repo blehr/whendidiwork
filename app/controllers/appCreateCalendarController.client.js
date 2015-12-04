@@ -11,7 +11,7 @@
 
       $scope.$on('setTimeZone', function(event, args) {
         cal.timeZone = args.msg;
-      })
+      });
 
       cal.createCalendar = function() {
         cal.isCollapsed = true;
@@ -20,14 +20,14 @@
         newCalendar.timeZone = cal.timeZone;
 
         $http.post('/api/:id/create-calendar', {
-          newCalendar
+          "newCalendar": newCalendar
         }).then(function(data) {
           $scope.$emit('createdCalendar', {
             msg: "Calendar created"
           });
-        })
-      }
+        });
+      };
 
-    }])
+    }]);
 
 })();

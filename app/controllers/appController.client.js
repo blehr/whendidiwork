@@ -47,7 +47,7 @@
         self.sheets = data.data.items;
         self.updateSheetProps();
       });
-    })
+    });
 
     self.getMyCalendars = appFactory.getCalendars;
 
@@ -58,16 +58,16 @@
           if (cal.primary === true) {
             self.timeZone = cal.timeZone;
           }
-        })
-      })
-    })
+        });
+      });
+    });
 
     self.getUser = function() {
       appFactory.getUser().then(function(result) {
         self.user = result.data;
         self.myForm.calendar = self.user.lastUsed.calendar;
         self.myForm.sheet = self.user.lastUsed.sheet;
-        if (self.myForm.calendar != '') {
+        if (self.myForm.calendar !== '') {
           self.getCalendarEvents();
         }
         self.getFiles();
@@ -84,7 +84,7 @@
           self.updateSheetProps();
         }
       });
-    }
+    };
 
     self.getCalendarsList = function() {
       self.getMyCalendars().then(function(data) {
@@ -96,9 +96,9 @@
               msg: self.timeZone
             });
           }
-        })
-      })
-    }
+        });
+      });
+    };
 
 
 
@@ -108,11 +108,11 @@
       self.myForm.clockOut = end;
       self.myForm.eventId = id;
       self.myForm.summary = summary;
-    }
+    };
 
     self.logout = function() {
       $window.location.href = '/logout';
-    }
+    };
 
     self.updateEvent = function() {
       self.isCollapsed = true;
@@ -126,7 +126,7 @@
           "dateTime": self.myForm.clockOut,
           "timeZone": self.timeZone
         }
-      }
+      };
 
       if (event.end.dateTime < event.start.dateTime) {
         alert('Event end time must come after start time!');
@@ -143,22 +143,20 @@
         return;
       }
 
-      if (self.sheetId != '' && self.myForm.calendar != '') {
-        $http.put('/api/:id/calendarevents/' + self.myForm.calendar + '/' + self.myForm.eventId, {
-          event
-        }).then(function(data) {
+      if (self.sheetId !== '' && self.myForm.calendar !== '') {
+        $http.put('/api/:id/calendarevents/' + self.myForm.calendar + '/' + self.myForm.eventId, {"event": event}).then(function(data) {
           self.eventConfirmation(data);
           self.cancelEdit();
           self.getCalendarEvents();
-        })
+        });
       }
-    }
+    };
 
 
     self.removeEvent = function(eventId) {
       self.isCollapsed = true;
       $http.delete('/api/:id/delete-event/' + self.myForm.calendar + '/' + eventId).then(function(data) {
-        if (data.data.body != "") {
+        if (data.data.body !== "") {
           self.confirmedSummary = 'This event can\'t be deleted';
           self.confirmedStart = '';
           self.confirmedEnd = '';
@@ -169,8 +167,8 @@
         }
         self.cancelEdit();
         self.getCalendarEvents();
-      })
-    }
+      });
+    };
 
     self.cancelEdit = function() {
       self.isEditing = false;
@@ -178,14 +176,14 @@
       self.myForm.clockOut = new Date();
       self.myForm.eventId = "";
       self.updateSheetProps();
-    }
+    };
 
     self.getCalendarEvents = function() {
       self.isCollapsed = true;
       $http.get('/api/:id/calendarevents/' + self.myForm.calendar).then(function(data) {
         self.events = data.data.items;
-      })
-    }
+      });
+    };
 
     self.submitForm = function() {
       self.isCollapsed = true;
@@ -200,7 +198,7 @@
           "dateTime": self.myForm.clockOut,
           "timeZone": self.timeZone
         }
-      }
+      };
 
       if (event.end.dateTime < event.start.dateTime) {
         alert('Event end time must come after start time!');
@@ -217,16 +215,16 @@
         return;
       }
 
-      if (self.sheetId != '' && self.myForm.calendar != '') {
+      if (self.sheetId !== '' && self.myForm.calendar !== '') {
         $http.post('api/:id/create-event/' + self.myForm.calendar + '/' + self.sheetId + '/' + self.nextRow, {
-          event
+          "event": event
         }).then(function(data) {
           self.eventConfirmation(data);
           self.cancelEdit();
           self.getCalendarEvents();
-        })
+        });
       }
-    }
+    };
 
     self.updateSheetProps = function() {
       if (self.myForm.sheet === '') {
@@ -244,10 +242,10 @@
         });
       }
 
-    }
+    };
 
     self.getSheetMeta = function() {
-      if (self.sheetId != '') {
+      if (self.sheetId !== '') {
         $http.get('api/:id/sheet/' + self.sheetId).then(function(data) {
           self.nextRow = data.data[0].nextRow;
           var sheetRows = data.data[1];
@@ -262,17 +260,17 @@
 
           lastTenRows.forEach(function(row) {
             return self.rowsArray.push(sheetRows[row]);
-          })
-        })
+          });
+        });
       }
-    }
+    };
 
     self.revealSheet = function() {
       self.isCollapsed = !self.isCollapsed;
       if (self.isCollapsed === false) {
         self.updateSheetProps();
       }
-    }
+    };
 
     self.eventConfirmation = function(data) {
       if (!data.data.summary) {
@@ -284,11 +282,11 @@
         self.confirmedStart = data.data.start.dateTime;
         self.confirmedEnd = data.data.end.dateTime;
       }
-    }
+    };
 
     self.checkTokenTime = function() {
       $timeout(self.checkTimediff, 300000); //5 minutes
-    }
+    };
 
     self.checkTimediff = function() {
       $http.get('api/:id/check-token', {
@@ -305,7 +303,7 @@
         self.checkTokenTime();
       });
 
-    }
+    };
 
 
 
@@ -317,6 +315,6 @@
 
 
 
-  }])
+  }]);
 
 })();
