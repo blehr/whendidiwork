@@ -59,6 +59,7 @@ function GoogleApiHandler() {
         bearer: token
       }
     };
+    console.log(options.url);
 
     request.get(options, function(err, response, body) {
       if (err) throw err;

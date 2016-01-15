@@ -8,9 +8,13 @@ var passport = require('passport');
 var session = require('express-session');
 var morgan = require('morgan');
 var request = require('request');
+var MongoDBStore = require('connect-mongodb-session')(session);
 
 
 var app = express();
+
+
+
 require('dotenv').load();
 require('./app/config/google-passport')(passport);
 
@@ -19,7 +23,14 @@ require('./app/config/google-passport')(passport);
 app.use(morgan('dev'));
 app.use(bodyParser.json({}));
 
-mongoose.connect(process.env.MONGOLAB_URI);//MONGO_URI
+mongoose.connect(process.env.MONGO_URI); //MONGO_URI
+
+
+var store = new MongoDBStore({
+  uri: process.env.MONGO_URI,
+  collection: 'mySessions'
+});
+
 
 app.use('/controllers', express.static(process.cwd() + '/app/controllers'));
 app.use('/public', express.static(process.cwd() + '/public'));
@@ -27,7 +38,8 @@ app.use('/public', express.static(process.cwd() + '/public'));
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  store: store
 }));
 
 app.use(passport.initialize());
