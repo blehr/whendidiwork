@@ -1,4 +1,4 @@
-## This is an older version of whendidiwork. The latest is built with express and react, it can be found [here](https://github.com/blehr/whendidiwork).
+## This is an older version of whendidiwork. The latest is built with express and react, it can be found [here](https://github.com/blehr/whendidiwork-react).
 
 # whendidiwork
 
